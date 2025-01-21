@@ -43,22 +43,22 @@ const Dashboard = () => {
                             isDonor ? <>
                             <li>
                                 <Link to="/dashboard">
-                                    <FaHome></FaHome>
+                                    
                                     Donor Home</Link>
                             </li>
                             <li>
                                 <Link to="/dashboard/profile">
-                                    <FaUtensils></FaUtensils>
+                                   
                                     Profile</Link>
                             </li>
                             <li>
                                 <Link to="/dashboard/my-donation-requests">
-                                    <FaList></FaList>
+                                    
                                     My-Donation-Requests</Link>
                             </li>
                             <li>
                                 <Link to="/dashboard/create-donation-request">
-                                    <FaBook></FaBook>
+                                    
                                     Create-Donation-Request</Link>
                             </li>
                         </>

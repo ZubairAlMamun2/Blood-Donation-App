@@ -2,8 +2,6 @@ import React, { useContext, useState } from "react";
 import { Link,  useLocation, useNavigate } from "react-router-dom";
 import {
   getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 import { FaEye } from "react-icons/fa";
