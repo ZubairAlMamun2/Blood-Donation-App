@@ -12,6 +12,7 @@ import UserHome from "../components/UserHome";
 import Profile from "../components/Profile";
 import MyDonationREquest from "../components/MyDonationREquest";
 import CreateDonationRequest from "../components/CreateDonationRequest";
+import ProfilePage from "../components/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -59,7 +60,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: <Profile />
+        element: <ProfilePage />
       },
       
       {

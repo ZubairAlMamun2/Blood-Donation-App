@@ -20,6 +20,29 @@ const provider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState({
+      name: '',
+      email: '',
+      avatar: '',
+      selecteddistrict: '',
+      selectedupazila: '',
+      bloodGroup: '',
+      isActive: '',
+    });
+    useEffect(()=>{
+      axios.get(`http://localhost:5000/login/${user?.email}`)
+      .then(res=>setUser({
+        name: res.data?.name,
+        email: res.data?.email,
+        avatar: res.data?.photo,
+        selecteddistrict: res.data?.selecteddistrict,
+        selectedupazila: res.data?.selectedupazila,
+        bloodGroup: res.data?.bloodGroup,
+        isActive:res.data?.status
+      }))
+     },[])
+  const [isActive, setActive] = useState("false");
+
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState(
       localStorage.getItem("theme") || "light"
@@ -38,6 +61,7 @@ const AuthProvider = ({ children }) => {
 
   const Logout = () => {
     setLoading(true);
+    setActive("false")
     return signOut(auth);
   };
 
@@ -58,28 +82,41 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, provider)
   }
 
-  
 
-  const UserInfo = { user,setTheme,theme, setUser, createNewUser, Logout, Login, loading,UpdateUserProfile,SignInWithGoogle,ResetUserPassword };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+
+        const response = await axios.get(`http://localhost:5000/user/${user?.email}`);
+        setUserData(response.data);
+      
+    };
+
+    fetchUserData();
+  }, [user]);
+
+  // console.log(isActive)
+
+  const UserInfo = {userData,setUserData,isActive,setActive, user,setTheme,theme, setUser, createNewUser, Logout, Login, loading,UpdateUserProfile,SignInWithGoogle,ResetUserPassword };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
       setUser(currentuser);
-      if(currentuser?.email){
-        const user={email:currentuser.email}
-            axios.post('https://group-study-zeta.vercel.app/jwt',user,{withCredentials:true})
-            .then((res)=>{
-                // console.log(res.data)
-                setLoading(false);
-            })
-        }
-        else{
-            axios.post('https://group-study-zeta.vercel.app/logout',{},{withCredentials:true})
-            .then((res)=>{
-                // console.log('logout',res.data)
-                setLoading(false);
-            }) 
-        }
+      // if(currentuser?.email){
+      //   const user={email:currentuser.email}
+      //       axios.post('https://group-study-zeta.vercel.app/jwt',user,{withCredentials:true})
+      //       .then((res)=>{
+      //           // console.log(res.data)
+      //           setLoading(false);
+      //       })
+      //   }
+      //   else{
+      //       axios.post('https://group-study-zeta.vercel.app/logout',{},{withCredentials:true})
+      //       .then((res)=>{
+      //           // console.log('logout',res.data)
+      //           setLoading(false);
+      //       }) 
+      //   }
     });
     return () => {
       unsubscribe();

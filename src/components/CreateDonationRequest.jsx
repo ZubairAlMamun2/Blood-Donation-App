@@ -11,8 +11,9 @@ const CreateDonationRequest = () => {
   const [upazila, setUpazila] = useState("");
   const [upazilareasorce2, setUpazilareasorce2] = useState([""]);
   const [upazilareasorce, setUpazilareasorce] = useState([""]);
-  const {user} = useContext(AuthContext);
+  const {user,isActive} = useContext(AuthContext);
   const navigate = useNavigate();
+  console.log(isActive)
  
 
     useEffect(() => {
@@ -46,6 +47,16 @@ const CreateDonationRequest = () => {
 
       const handleSubmit = (e) => {
         e.preventDefault();
+        if(isActive=="false"){
+            Swal.fire({
+                title: "Sorry!",
+                text: "you are not a active User",
+                icon: "error",
+                confirmButtonText: "error",
+              });
+             // navigate("/dashboard");
+              return;
+        }
     
         const form = new FormData(e.target);
         const requesterEmail = form.get("requester-email");
@@ -97,7 +108,7 @@ const CreateDonationRequest = () => {
               icon: "success",
               confirmButtonText: "Cool",
             });
-            navigate("/dashboard/my-donation-requests");
+            //navigate("/dashboard/my-donation-requests");
            
           }
         });

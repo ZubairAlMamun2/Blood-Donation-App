@@ -73,6 +73,7 @@ const Register = () => {
       selectedupazila,
       status,
       role,
+      photo,
     };
     console.log(formData)
 

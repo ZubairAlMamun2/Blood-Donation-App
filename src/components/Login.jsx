@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link,  useLocation, useNavigate } from "react-router-dom";
 import {
   getAuth,
@@ -9,13 +9,14 @@ import { FaEyeSlash } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { AuthContext } from "../provider/AuthProvider";
+import axios from "axios";
 
 const Login = () => {
-  const provider = new GoogleAuthProvider();
+
   const [error, setError] = useState("");
   const [passtype, setPasstype] = useState(false);
   const auth = getAuth(app);
-  const { Login, setUser,resetEmail } = useContext(AuthContext);
+  const {isActive, Login,setActive, setUser,resetEmail } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   //   console.log(location)
@@ -38,8 +39,12 @@ const Login = () => {
       .then((result) => {
         // console.log(result.user);
         setUser(result.user);
+        axios.get(`http://localhost:5000/login/${email}`)
+          .then(res=>res.data.status=="active"?setActive("true"):setActive("false"))
+          
         setError("");
         navigate(location?.state ? location.state : "/");
+        console.log(isActive)
         Swal.fire({
           title: 'Success!',
           text: 'User Loged in succesfully',
@@ -59,6 +64,8 @@ const Login = () => {
     //   then(res=>console.log(res.user) ).
     //   catch(err=>console.log(err))
   };
+
+ 
 
   return (
     <div className="min-h-screen flex justify-center items-center">
