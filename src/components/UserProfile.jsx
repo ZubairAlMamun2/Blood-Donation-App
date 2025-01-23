@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 const ProfilePage = () => {
     const{user}=useContext(AuthContext)
     const [isEditable, setIsEditable] = useState(false);
-    const [userData, setUserData] = useState("");
+    const [userData, setUserData] = useState(null);
 
   // Fetch user data from the backend (replace email with the logged-in user's email)
  
@@ -17,19 +17,18 @@ const ProfilePage = () => {
     setUserData((prevData) => ({ ...prevData, [name]: value }));
   };
   useEffect(() => {
-    const fetchUserData = async () => {
+   
 
-        const response = await axios.get(`http://localhost:5000/user/${user?.email}`);
-        setUserData(response.data);
+        axios.get(`http://localhost:5000/user/${user?.email}`)
+        .then(res=> setUserData(res.data))
+       
       
-    };
-
-    fetchUserData();
+   
   }, [user]);
-  console.log(userData)
+//   console.log(userData)
 
   // Save updated user data to the backend
-  console.log(user?.email)
+  //console.log(user?.email)
   const handleSave = () => {
     axios
       .put(`http://localhost:5000/updateprofile/${userData?._id}`, userData, {
@@ -67,21 +66,21 @@ const ProfilePage = () => {
           <input
             type="text"
             name="name"
-            value={userData.name}
+            value={userData?.name}
             onChange={handleChange}
             disabled={!isEditable}
           />
         </div>
         <div style={{ marginBottom: '10px' }}>
           <label>Email:</label>
-          <input type="email" name="email" value={userData.email} disabled />
+          <input type="email" name="email" value={userData?.email} disabled />
         </div>
         <div style={{ marginBottom: '10px' }}>
           <label>Avatar:</label>
           <input
             type="text"
             name="avatar"
-            value={userData.avatar}
+            value={userData?.photo}
             onChange={handleChange}
             disabled={!isEditable}
           />
@@ -91,7 +90,7 @@ const ProfilePage = () => {
           <input
             type="text"
             name="selecteddistrict"
-            value={userData.selecteddistrict}
+            value={userData?.selecteddistrict}
             onChange={handleChange}
             disabled={!isEditable}
           />
@@ -101,7 +100,7 @@ const ProfilePage = () => {
           <input
             type="text"
             name="selectedupazila"
-            value={userData.selectedupazila}
+            value={userData?.selectedupazila}
             onChange={handleChange}
             disabled={!isEditable}
           />
@@ -111,7 +110,7 @@ const ProfilePage = () => {
           <input
             type="text"
             name="bloodGroup"
-            value={userData.bloodGroup}
+            value={userData?.bloodGroup}
             onChange={handleChange}
             disabled={!isEditable}
           />

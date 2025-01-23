@@ -1,52 +1,60 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../provider/AuthProvider';
-import { useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2';
+import { AuthContext } from '../provider/AuthProvider';
 
-const CreateDonationRequest = () => {
-  const [type, setType] = useState("");
-  const [district, setDistrict] = useState("");
-  const [districtreasorce, setDistrictreasorce] = useState([""]);
-  const [upazila, setUpazila] = useState("");
-  const [upazilareasorce2, setUpazilareasorce2] = useState([""]);
-  const [upazilareasorce, setUpazilareasorce] = useState([""]);
-  const {user,userData} = useContext(AuthContext);
-  const navigate = useNavigate();
-  console.log(userData.status)
- 
+const UpdateDonation = () => {
+    const [type, setType] = useState("");
+    const [district, setDistrict] = useState("");
+    const [districtreasorce, setDistrictreasorce] = useState([""]);
+    const [upazila, setUpazila] = useState("");
+    const [upazilareasorce2, setUpazilareasorce2] = useState([""]);
+    const [upazilareasorce, setUpazilareasorce] = useState([""]);
+    const {user,isActive,userData} = useContext(AuthContext);
+    const navigate = useNavigate();
+    console.log(userData.status)
+    const[donation,setDonation]=useState('')
 
-    useEffect(() => {
-        fetch("/district.json")
-          .then((response) => response.json())
-          .then((data) => {
-            //console.log(data[0])
-            setDistrictreasorce(data);
-          });
-      }, []);
-      useEffect(() => {
-        fetch("/upazila.json")
-          .then((response) => response.json())
-          .then((data) => {
-            //console.log(data[0])
-    
-            setUpazilareasorce2(data);
-          });
-      }, []);
-    
-      useEffect(() => {
-        const filtreddata1 = districtreasorce.filter(
-          (data) => data.name == district
-        );
-        const filtreddata2 = upazilareasorce2.filter(
-          (data) => data.district_id == filtreddata1[0]?.id
-        );
-        // console.log(filtreddata1[0].id)
-        setUpazilareasorce(filtreddata2);
-      }, [district]);
-      
+     useEffect(() => {
+            fetch("/district.json")
+              .then((response) => response.json())
+              .then((data) => {
+                //console.log(data[0])
+                setDistrictreasorce(data);
+              });
+          }, []);
+          useEffect(() => {
+            fetch("/upazila.json")
+              .then((response) => response.json())
+              .then((data) => {
+                //console.log(data[0])
+        
+                setUpazilareasorce2(data);
+              });
+          }, []);
+        
+          useEffect(() => {
+            const filtreddata1 = districtreasorce.filter(
+              (data) => data.name == district
+            );
+            const filtreddata2 = upazilareasorce2.filter(
+              (data) => data.district_id == filtreddata1[0]?.id
+            );
+            // console.log(filtreddata1[0].id)
+            setUpazilareasorce(filtreddata2);
+          }, [district]);
 
-      const handleSubmit = (e) => {
+
+    const { id } = useParams();
+    console.log(id)
+    useEffect(()=>{
+        axios.get(`http://localhost:5000/donation/${id}`)
+        .then(res=>setDonation(res.data))
+       },[])
+console.log(donation)
+
+       const handleSubmit = (e) => {
         e.preventDefault();
         if(userData.status=="blocked"){
             Swal.fire({
@@ -55,7 +63,7 @@ const CreateDonationRequest = () => {
                 icon: "error",
                 confirmButtonText: "error",
               });
-            //  navigate("/dashboard");
+             // navigate("/dashboard");
               return;
         }
     
@@ -95,18 +103,17 @@ const CreateDonationRequest = () => {
     
     
         axios
-        .post(
-          `http://localhost:5000/createnewdonationrequest`,
-          formData,
-          { withCredentials: true }
-        )
+        .put(`http://localhost:5000/updatedonation/${donation?._id}`, formData, {
+          withCredentials: true,
+        })
+       
 
         .then((res) => {
           // console.log(res.data);
           if (res.data.acknowledged) {
             Swal.fire({
               title: "Success!",
-              text: "Request created succesfully",
+              text: "Request Updated succesfully",
               icon: "success",
               confirmButtonText: "Cool",
             });
@@ -117,12 +124,11 @@ const CreateDonationRequest = () => {
     
        
       };
-
   return (
     <div className="min-h-screen flex justify-center items-center">
       <div className="card rounded-none bg-base-100 w-full max-w-lg shrink-0 p-10">
         <h2 className="text-2xl font-semibold text-center">
-          Create donation request
+          Update donation request
         </h2>
         <form onSubmit={handleSubmit} className="card-body p-0">
           <div className="form-control">
@@ -291,7 +297,7 @@ const CreateDonationRequest = () => {
           
           
           <div className="form-control mt-6">
-            <button className="btn btn-neutral rounded-none">Request</button>
+            <button className="btn btn-neutral rounded-none">Update</button>
           </div>
         </form>
        
@@ -300,4 +306,4 @@ const CreateDonationRequest = () => {
   )
 }
 
-export default CreateDonationRequest
+export default UpdateDonation

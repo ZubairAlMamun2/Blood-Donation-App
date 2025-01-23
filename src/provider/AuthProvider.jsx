@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState({
       name: '',
       email: '',
-      avatar: '',
+      photo: '',
       selecteddistrict: '',
       selectedupazila: '',
       bloodGroup: '',
@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
       .then(res=>setUser({
         name: res.data?.name,
         email: res.data?.email,
-        avatar: res.data?.photo,
+        photo: res.data?.photo,
         selecteddistrict: res.data?.selecteddistrict,
         selectedupazila: res.data?.selectedupazila,
         bloodGroup: res.data?.bloodGroup,
