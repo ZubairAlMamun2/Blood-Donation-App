@@ -13,6 +13,7 @@ import MyDonationREquest from "../components/MyDonationREquest";
 import CreateDonationRequest from "../components/CreateDonationRequest";
 import ProfilePage from "../components/UserProfile";
 import UpdateDonation from "../components/UpdateDonation";
+import DonationRequstDetails from "../components/DonationRequstDetails";
 
 const router = createBrowserRouter([
   {
@@ -56,7 +57,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <UserHome />
+        element: <UserHome />,
+        loader:()=>fetch(`http://localhost:5000/mydonation`)
       },
       {
         path: 'profile',
@@ -75,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: 'update-donation-request/:id',
         element: <UpdateDonation />,
+      },
+      {
+        path: 'details-donation-request/:id',
+        element: <DonationRequstDetails />,
       },
       
 

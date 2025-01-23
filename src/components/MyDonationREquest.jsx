@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../provider/AuthProvider'
 import axios from 'axios'
 import { Link, useLoaderData } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 const MyDonationREquest = () => {
     const {user}=useContext(AuthContext)
@@ -14,9 +15,38 @@ const MyDonationREquest = () => {
     },[data,user])
 
 
-    const handleDelete=(id)=>{
-        console.log(id)
-    }
+    
+    const handleDelete = (_id) => {
+        // console.log(_id, email);
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            fetch(`http://localhost:5000/deleterequest/${_id}`, {
+              method: "DELETE",
+            })
+              .then((res) => res.json())
+              .then((res) => {
+                if (res.deletedCount > 0) {
+                  Swal.fire({
+                    title: "Success!",
+                    text: "Donation Request Deleted succesfully",
+                    icon: "success",
+                    confirmButtonText: "Cool",
+                  });
+                  const filtereddata = donation.filter((user) => user._id !== _id);
+                  setDoation(filtereddata);
+                }
+              });
+          }
+        });
+      };
 
     // useEffect(()=>{
     //     axios.get(`http://localhost:5000/mydonation`)
@@ -36,13 +66,13 @@ const MyDonationREquest = () => {
     <thead>
       <tr className='border'>
         
-        <th>requesterName</th>
-        <th>recipient location</th>
-        <th>donation date</th>
-        <th>donation time</th>
-        <th>blood group</th>
-        <th>donation status</th>
-        <th>donor information</th>
+        <th>Recipient Name</th>
+        <th>Recipient location</th>
+        <th>Donation date</th>
+        <th>Donation time</th>
+        <th>Blood group</th>
+        <th>Donation status</th>
+        <th>Donor information</th>
         <th></th>
       </tr>
     </thead>
@@ -51,7 +81,7 @@ const MyDonationREquest = () => {
       {
         donation.map((item)=>{
             return <tr className='border'>
-            <td>{item.requesterName}</td>
+            <td>{item.recipientName}</td>
             <td>{item.selecteddistrict},{item.selectedupazila}</td>
             <td>{item.date}</td>
             <td>{item.time}</td>
@@ -62,7 +92,7 @@ const MyDonationREquest = () => {
             <td><button onClick={()=>{
                 handleDelete(item._id)
             }}>Delete</button></td>
-            <td><button>View</button></td>
+            <td><Link to={`/dashboard/details-donation-request/${item._id}`} >View</Link></td>
             
           </tr>
         })

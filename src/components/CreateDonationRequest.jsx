@@ -186,7 +186,7 @@ const CreateDonationRequest = () => {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Upazila</span>
+              <span className="label-text">Receipt Upazila</span>
             </label>
             <select
               onChange={(e) => setUpazila(e.target.value)}

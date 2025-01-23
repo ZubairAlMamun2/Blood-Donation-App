@@ -106,10 +106,7 @@ console.log(donation)
         .put(`http://localhost:5000/updatedonation/${donation?._id}`, formData, {
           withCredentials: true,
         })
-       
-
         .then((res) => {
-          // console.log(res.data);
           if (res.data.acknowledged) {
             Swal.fire({
               title: "Success!",
