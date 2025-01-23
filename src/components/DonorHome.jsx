@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link, useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const UserHome = () => {
+const DonorHome = () => {
   const { user, userData } = useContext(AuthContext);
   const [donations, setDoations] = useState([]);
   const [filtreddonations, setfiltredDoations] = useState([]);
@@ -66,7 +66,8 @@ const UserHome = () => {
           {userData?.name}
         </h2>
       </div>
-      <div className=" w-48">
+      {
+        filtreddonations.length>0?<div className=" w-48">
         <table className="table">
           <thead>
             <tr className="border">
@@ -83,7 +84,7 @@ const UserHome = () => {
           <tbody>
             {filtreddonations.map((item) => {
               return (
-                <tr className="border">
+                <tr key={item._id} className="border">
                   <td>{item.recipientName}</td>
                   <td>
                     {item.selecteddistrict},{item.selectedupazila}
@@ -119,14 +120,16 @@ const UserHome = () => {
             })}
           </tbody>
         </table>
-      </div>
+      </div>:<></>
+      }
       <div className="my-5">
         <Link className="btn btn-primary" to="/dashboard/my-donation-requests">
-          my-donation-requests
+        view my all
+        request
         </Link>
       </div>
     </div>
   );
 };
 
-export default UserHome;
+export default DonorHome;

@@ -25,7 +25,7 @@ const ProfilePage = () => {
       
    
   }, [user]);
-//   console.log(userData)
+  console.log(userData)
 
   // Save updated user data to the backend
   //console.log(user?.email)
@@ -37,6 +37,7 @@ const ProfilePage = () => {
       .then((res) => {
         // console.log(res.data);
         if (res.data.modifiedCount > 0) {
+            setIsEditable(false)
           Swal.fire({
             title: "Success!",
             text: "User Updated succesfully",

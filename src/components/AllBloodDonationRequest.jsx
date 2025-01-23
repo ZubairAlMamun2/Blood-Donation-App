@@ -4,20 +4,19 @@ import axios from 'axios'
 import { Link, useLoaderData } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
-const MyDonationREquest = () => {
+const AllBloodDonationRequest = () => {
     const {user}=useContext(AuthContext)
     const [donation,setDoation]=useState([]);
     const data=useLoaderData();
     // 
     useEffect(()=>{
-        const filtreddata=data.filter(item=>item.requesterEmail==user?.email)
-          setDoation(filtreddata)
+        
+          setDoation(data)
     },[data,user])
 
 
     
     const handleDelete = (_id) => {
-        // console.log(_id, email);
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -48,6 +47,15 @@ const MyDonationREquest = () => {
         });
       };
 
+    // useEffect(()=>{
+    //     axios.get(`http://localhost:5000/mydonation`)
+    //     .then(res=>{
+            
+    //         const filtreddata=res.data.filter(data=>data.requesterEmail==user?.email)
+    //         setDoation(filtreddata)
+    //         console.log(donation)
+    //     })
+    // },[user])
     console.log(donation);
     
   return (
@@ -71,7 +79,7 @@ const MyDonationREquest = () => {
       {/* row 1 */}
       {
         donation.map((item)=>{
-            return <tr key={item.id} className='border'>
+            return <tr key={item._id} className='border'>
             <td>{item.recipientName}</td>
             <td>{item.selecteddistrict},{item.selectedupazila}</td>
             <td>{item.date}</td>
@@ -94,4 +102,5 @@ const MyDonationREquest = () => {
   )
 }
 
-export default MyDonationREquest
+
+export default AllBloodDonationRequest

@@ -8,12 +8,14 @@ import DonationRequest from "../components/DonationRequest";
 import Blogs from "../components/Blogs";
 import Funding from "../components/Funding";
 import Dashboard from "../components/Dashboard";
-import UserHome from "../components/UserHome";
 import MyDonationREquest from "../components/MyDonationREquest";
 import CreateDonationRequest from "../components/CreateDonationRequest";
 import ProfilePage from "../components/UserProfile";
 import UpdateDonation from "../components/UpdateDonation";
 import DonationRequstDetails from "../components/DonationRequstDetails";
+import DonorHome from "../components/DonorHome";
+import AllBloodDonationRequest from "../components/AllBloodDonationRequest";
+import AllUser from "../components/AllUser";
 
 const router = createBrowserRouter([
   {
@@ -57,17 +59,27 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <UserHome />,
+        element: <DonorHome />,
         loader:()=>fetch(`http://localhost:5000/mydonation`)
       },
       {
         path: 'profile',
         element: <ProfilePage />
       },
+      {
+        path: 'all-user',
+        element: <AllUser />,
+        loader:()=>fetch(`http://localhost:5000/all-user`)
+      },
       
       {
         path: 'my-donation-requests',
         element: <MyDonationREquest />,
+        loader:()=>fetch(`http://localhost:5000/mydonation`)
+      },
+      {
+        path: 'all-blood-donation-request',
+        element: <AllBloodDonationRequest />,
         loader:()=>fetch(`http://localhost:5000/mydonation`)
       },
       {

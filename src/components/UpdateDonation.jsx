@@ -114,7 +114,9 @@ console.log(donation)
               icon: "success",
               confirmButtonText: "Cool",
             });
-            navigate("/dashboard/my-donation-requests");
+
+            userData.role=="donor"?navigate("/dashboard/my-donation-requests"):navigate("/dashboard/all-blood-donation-request")
+            
            
           }
         });

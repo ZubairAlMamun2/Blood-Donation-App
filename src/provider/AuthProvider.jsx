@@ -28,6 +28,7 @@ const AuthProvider = ({ children }) => {
       selectedupazila: '',
       bloodGroup: '',
       isActive: '',
+      role: '',
     });
     useEffect(()=>{
       axios.get(`http://localhost:5000/login/${user?.email}`)
@@ -38,7 +39,8 @@ const AuthProvider = ({ children }) => {
         selecteddistrict: res.data?.selecteddistrict,
         selectedupazila: res.data?.selectedupazila,
         bloodGroup: res.data?.bloodGroup,
-        isActive:res.data?.status
+        isActive:res.data?.status,
+        role:res.data?.role
       }))
      },[])
   const [isActive, setActive] = useState("false");

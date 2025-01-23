@@ -1,46 +1,46 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FaBook, FaCalendar, FaEnvelope, FaHome, FaList, FaSearch, FaShoppingCart, FaUsers, FaUtensils } from 'react-icons/fa';
 import { Link, NavLink, Outlet } from 'react-router-dom';
+import { AuthContext } from '../provider/AuthProvider';
 
 const Dashboard = () => {
-    const isAdmin=false;
-    const isDonor=true;
+    const{userData}=useContext(AuthContext)
   return (
     <div className="flex">
             {/* dashboard side bar */}
             <div className="w-64 min-h-screen bg-slate-400">
                 <ul className="menu p-4">
                     {
-                        isAdmin ? <>
+                        userData.role=="admin" ? <>
                             <li>
-                                <NavLink to="/dashboard/adminHome">
-                                    <FaHome></FaHome>
-                                    Admin Home</NavLink>
+                                <Link to="/dashboard">
+                                    
+                                    Admin Home</Link>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/addItems">
-                                    <FaUtensils></FaUtensils>
-                                    Add Items</NavLink>
+                                <Link to="/dashboard/profile">
+                                   
+                                    Profile</Link>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/manageItems">
-                                    <FaList></FaList>
-                                    Manage Items</NavLink>
+                                <Link to="/dashboard/all-user">
+                                   
+                                    All-User</Link>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/bookings">
-                                    <FaBook></FaBook>
-                                    Manage Bookings</NavLink>
+                                <Link to="/dashboard/all-blood-donation-request">
+                                    
+                                    All-Blood-Donation-Requests</Link>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/users">
-                                    <FaUsers></FaUsers>
-                                    All Users</NavLink>
+                                <Link to="/dashboard/create-donation-request">
+                                    
+                                    Create-Donation-Request</Link>
                             </li>
                         </>
                             :
                             
-                            isDonor ? <>
+                            userData.role=="donor" ? <>
                             <li>
                                 <Link to="/dashboard">
                                     
@@ -70,26 +70,9 @@ const Dashboard = () => {
                                         <FaHome></FaHome>
                                         Volunteer Home</NavLink>
                                 </li>
-                                <li>
-                                    <NavLink to="/dashboard/history">
-                                        <FaCalendar></FaCalendar>
-                                        Not History</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/dashboard/cart">
-                                        <FaShoppingCart></FaShoppingCart>
-                                        My Cart ({cart.length})</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/dashboard/review">
-                                        <FaAd></FaAd>
-                                        Add a Review</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/dashboard/paymentHistory">
-                                        <FaList></FaList>
-                                        Real Payment History</NavLink>
-                                </li>
+                                
+                                
+                                
                             </>
                     }
                     {/* shared nav links */}
