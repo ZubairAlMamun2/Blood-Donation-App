@@ -8,8 +8,8 @@ const Dashboard = () => {
   return (
     <div className="flex">
             {/* dashboard side bar */}
-            <div className="w-64 min-h-screen bg-slate-400">
-                <ul className="menu p-4">
+            <div className="w-28 lg:w-64 md:w-48 min-h-screen bg-slate-400">
+                <ul className="menu md:p-4">
                     {
                         userData.role=="admin" ? <>
                             <li>
@@ -31,6 +31,11 @@ const Dashboard = () => {
                                 <Link to="/dashboard/all-blood-donation-request">
                                     
                                     All-Blood-Donation-Requests</Link>
+                            </li>
+                            <li>
+                                <Link to="/dashboard/content-management">
+                                    
+                                Content-management</Link>
                             </li>
                             <li>
                                 <Link to="/dashboard/create-donation-request">
@@ -95,7 +100,7 @@ const Dashboard = () => {
                 </ul>
             </div>
             {/* dashboard content */}
-            <div className="flex-1 p-8">
+            <div className="flex-1 md:p-8">
                 <Outlet></Outlet>
             </div>
         </div>

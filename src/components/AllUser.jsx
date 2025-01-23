@@ -121,13 +121,13 @@ const AllUser = () => {
             <th>user name</th>
             <th>user role</th>
             <th>user status</th>
-            <th></th>
-            <th></th>
+            <th>Manage Status</th>
+            <th>Manage Role</th>
           </tr>
         </thead>
         <tbody>
           {/* row 1 */}
-          {data.map((item) => {
+          {data?.map((item) => {
             return (
               <tr key={item._id} className="border">
                 <td>

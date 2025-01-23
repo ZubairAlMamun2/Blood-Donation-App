@@ -71,7 +71,7 @@ const MyDonationREquest = () => {
       {/* row 1 */}
       {
         donation.map((item)=>{
-            return <tr key={item.id} className='border'>
+            return <tr key={item._id} className='border'>
             <td>{item.recipientName}</td>
             <td>{item.selecteddistrict},{item.selectedupazila}</td>
             <td>{item.date}</td>

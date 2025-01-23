@@ -123,10 +123,13 @@ const DonorHome = () => {
       </div>:<></>
       }
       <div className="my-5">
-        <Link className="btn btn-primary" to="/dashboard/my-donation-requests">
+        {userData.role=="donor"?<Link className="btn btn-primary" to="/dashboard/my-donation-requests">
         view my all
         request
-        </Link>
+        </Link>:<Link className="btn btn-primary" to="/dashboard/all-blood-donation-request">
+        view all blood
+        request
+        </Link>}
       </div>
     </div>
   );

@@ -16,6 +16,8 @@ import DonationRequstDetails from "../components/DonationRequstDetails";
 import DonorHome from "../components/DonorHome";
 import AllBloodDonationRequest from "../components/AllBloodDonationRequest";
 import AllUser from "../components/AllUser";
+import ContentManagement from "../components/ContentManagement";
+import AddBlog from "../components/AddBlog";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +67,14 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <ProfilePage />
+      },
+      {
+        path: 'content-management',
+        element: <ContentManagement />
+      },
+      {
+        path: 'content-management/add-blog',
+        element: <AddBlog />
       },
       {
         path: 'all-user',
