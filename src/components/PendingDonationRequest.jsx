@@ -44,7 +44,7 @@ const PendingDonationRequest = () => {
              <td>{item.bloodGroup}</td>
              <td>{item.date}</td>
              <td>{item.time}</td>
-             <td><Link className='btn' to={`/dashboard/details-donation-request/${item._id}`} >View</Link></td>
+             <td><Link className='btn' to={`/details-donation-request/${item._id}`} >View</Link></td>
              
            </tr>
          })

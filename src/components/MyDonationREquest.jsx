@@ -83,7 +83,7 @@ const MyDonationREquest = () => {
             <td><button onClick={()=>{
                 handleDelete(item._id)
             }}>Delete</button></td>
-            <td><Link to={`/dashboard/details-donation-request/${item._id}`} >View</Link></td>
+            <td><Link to={`/details-donation-request/${item._id}`} >View</Link></td>
             
           </tr>
         })

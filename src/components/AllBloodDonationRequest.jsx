@@ -92,7 +92,7 @@ const AllBloodDonationRequest = () => {
             <td>{userData.role=="admin"?<button onClick={()=>{
                 handleDelete(item._id)
             }}>Delete</button>:<></>}</td>
-            <td>{userData.role=="admin"?<Link to={`/dashboard/details-donation-request/${item._id}`} >View</Link>:<></>}</td>
+            <td>{userData.role=="admin"?<Link to={`/details-donation-request/${item._id}`} >View</Link>:<></>}</td>
             
           </tr>
         })

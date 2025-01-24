@@ -48,6 +48,10 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
+    path: 'details-donation-request/:id',
+    element: <DonationRequstDetails />,
+  },
+  {
     path: "/auth",
     element:<AuthLayouts />,
     children:[
@@ -107,14 +111,6 @@ const router = createBrowserRouter([
         path: 'update-donation-request/:id',
         element: <UpdateDonation />,
       },
-      {
-        path: 'details-donation-request/:id',
-        element: <DonationRequstDetails />,
-      },
-      
-
-     
-     
 
     ]
   },
