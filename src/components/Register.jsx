@@ -63,7 +63,7 @@ const Register = () => {
     const selecteddistrict = district;
     const selectedupazila = upazila;
     const status = "active";
-    const role = "admin";
+    const role = "donor";
 
     const formData = {
       email,
