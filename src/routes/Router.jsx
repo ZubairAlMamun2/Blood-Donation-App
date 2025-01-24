@@ -19,6 +19,7 @@ import ContentManagement from "../components/ContentManagement";
 import AddBlog from "../components/AddBlog";
 import UserHome from "../components/UserHome";
 import SearchDonor from "../components/SearchDonor";
+import PendingDonationRequest from "../components/PendingDonationRequest";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/donation",
-    element: <DonationRequest />,
+    element: <PendingDonationRequest />,
+    loader:()=>fetch(`http://localhost:5000/mydonation`)
   },
   {
     path: "/blogs",
