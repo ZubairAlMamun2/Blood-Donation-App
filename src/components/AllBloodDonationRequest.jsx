@@ -5,7 +5,7 @@ import { Link, useLoaderData } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 const AllBloodDonationRequest = () => {
-    const {user}=useContext(AuthContext)
+    const {user,userData}=useContext(AuthContext)
     const [donation,setDoation]=useState([]);
     const data=useLoaderData();
     // 
@@ -17,6 +17,7 @@ const AllBloodDonationRequest = () => {
 
     
     const handleDelete = (_id) => {
+
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -87,11 +88,11 @@ const AllBloodDonationRequest = () => {
             <td>{item.bloodGroup}</td>
             <td>{item.donationStatus}</td>
             <td></td>
-            <td><Link to={`/dashboard/update-donation-request/${item._id}`} >Edit</Link></td>
-            <td><button onClick={()=>{
+            <td>{userData.role=="admin"?<Link to={`/dashboard/update-donation-request/${item._id}`} >Edit</Link>:<></>}</td>
+            <td>{userData.role=="admin"?<button onClick={()=>{
                 handleDelete(item._id)
-            }}>Delete</button></td>
-            <td><Link to={`/dashboard/details-donation-request/${item._id}`} >View</Link></td>
+            }}>Delete</button>:<></>}</td>
+            <td>{userData.role=="admin"?<Link to={`/dashboard/details-donation-request/${item._id}`} >View</Link>:<></>}</td>
             
           </tr>
         })

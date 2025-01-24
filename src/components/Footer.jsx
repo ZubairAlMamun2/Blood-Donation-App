@@ -9,9 +9,7 @@ const Footer = () => {
       <footer>
         <div className="grid grid-cols-2">
             <div className="col-span-2 justify-center md:col-span-1">
-                <h2 className="text-xl font-semibold">Contuct Us</h2>
-                <h2>Email: homework@gmail.com</h2>
-                <h2>Phone: +8801384584</h2>
+                
                 <div>
                     <h2 className="text-xl font-semibold mt-2">Media Links</h2>
                     <div className="flex gap-3 ml-2">

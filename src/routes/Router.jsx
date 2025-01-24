@@ -18,6 +18,7 @@ import AllUser from "../components/AllUser";
 import ContentManagement from "../components/ContentManagement";
 import AddBlog from "../components/AddBlog";
 import UserHome from "../components/UserHome";
+import SearchDonor from "../components/SearchDonor";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/funding",
     element: <Funding />,
+  },
+  {
+    path: "/searchdonor",
+    element: <SearchDonor />,
   },
   {
     path: "/dashboard",
