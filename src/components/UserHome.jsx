@@ -3,13 +3,25 @@ import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
 import { Link, useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
+import { CiSquareQuestion } from "react-icons/ci";
+import { FaUsers } from "react-icons/fa";
 
-const DonorHome = () => {
+const UserHome = () => {
+    const [countuser, setcountuser] = useState([]);
   const { user, userData } = useContext(AuthContext);
   const [donations, setDoations] = useState([]);
   const [filtreddonations, setfiltredDoations] = useState([]);
 
   const data = useLoaderData();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/all-user")
+      .then((res) => {
+        const donor=res.data.filter(item=>item.role=="donor")
+        setcountuser(donor)
+      });
+  }, []);
   //
   useEffect(() => {
     const filtreddata = data.filter(
@@ -67,7 +79,24 @@ const DonorHome = () => {
         </h2>
       </div>
       {
-        filtreddonations.length>0?<div className=" w-48">
+        userData.role=="admin"||userData.role=="volunteer"? <div className="grid gap-2 grid-cols-1 lg:grid-cols-2">
+          <div className="card border-red-400 border-4 shadow-xl p-2 my-5 grid grid-cols-3">
+            <div className="col-span-1 flex items-center justify-center text-5xl font-bold"><CiSquareQuestion /></div>
+            <div className="col-span-2 "><h2 className=" font-semibold ">Total Blood Donation Request</h2>
+            <p className="text-3xl font-bold">{data.length}</p></div>
+          </div>
+          <div className="card border-red-400 border-4 shadow-xl p-2 my-5 grid grid-cols-3">
+            <div className="col-span-1 flex items-center justify-center text-5xl font-bold"><FaUsers /></div>
+            <div className="col-span-2 "><h2 className=" font-semibold ">Total Donor</h2>
+            <p className="text-3xl font-bold">{countuser.length}</p></div>
+          </div>
+          
+        </div>:<></>
+      }
+
+
+      {
+        filtreddonations.length>0&&userData.role=="donor"?<div className=" w-48">
         <table className="table">
           <thead>
             <tr className="border">
@@ -122,7 +151,10 @@ const DonorHome = () => {
         </table>
       </div>:<></>
       }
-      <div className="my-5">
+
+
+      {
+        userData.role=="donor"?<div className="my-5">
         {userData.role=="donor"?<Link className="btn btn-primary" to="/dashboard/my-donation-requests">
         view my all
         request
@@ -130,9 +162,10 @@ const DonorHome = () => {
         view all blood
         request
         </Link>}
-      </div>
+      </div>:<></>
+      }
     </div>
   );
 };
 
-export default DonorHome;
+export default UserHome;

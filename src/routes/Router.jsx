@@ -13,11 +13,11 @@ import CreateDonationRequest from "../components/CreateDonationRequest";
 import ProfilePage from "../components/UserProfile";
 import UpdateDonation from "../components/UpdateDonation";
 import DonationRequstDetails from "../components/DonationRequstDetails";
-import DonorHome from "../components/DonorHome";
 import AllBloodDonationRequest from "../components/AllBloodDonationRequest";
 import AllUser from "../components/AllUser";
 import ContentManagement from "../components/ContentManagement";
 import AddBlog from "../components/AddBlog";
+import UserHome from "../components/UserHome";
 
 const router = createBrowserRouter([
   {
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <DonorHome />,
+        element: <UserHome />,
         loader:()=>fetch(`http://localhost:5000/mydonation`)
       },
       {

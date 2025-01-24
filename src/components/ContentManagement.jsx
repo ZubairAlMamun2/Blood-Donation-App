@@ -38,7 +38,7 @@ const ContentManagement = () => {
         if (res.data.modifiedCount > 0) {
           Swal.fire({
             title: "Success!",
-            text: "User Updated succesfully",
+            text: "Blog Published succesfully",
             icon: "success",
             confirmButtonText: "Cool",
           });
@@ -62,7 +62,7 @@ const ContentManagement = () => {
         if (res.data.modifiedCount > 0) {
           Swal.fire({
             title: "Success!",
-            text: "User Updated succesfully",
+            text: "Blog unpublished succesfully",
             icon: "success",
             confirmButtonText: "Cool",
           });
@@ -91,7 +91,7 @@ const ContentManagement = () => {
                   if (res.deletedCount > 0) {
                     Swal.fire({
                       title: "Success!",
-                      text: "Donation Request Deleted succesfully",
+                      text: "Blog Deleted succesfully",
                       icon: "success",
                       confirmButtonText: "Cool",
                     });

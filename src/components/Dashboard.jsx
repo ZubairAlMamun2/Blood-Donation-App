@@ -37,11 +37,7 @@ const Dashboard = () => {
                                     
                                 Content-management</Link>
                             </li>
-                            <li>
-                                <Link to="/dashboard/create-donation-request">
-                                    
-                                    Create-Donation-Request</Link>
-                            </li>
+                            
                         </>
                             :
                             
@@ -71,10 +67,25 @@ const Dashboard = () => {
                             
                             <>
                                 <li>
-                                    <NavLink to="/dashboard/userHome">
-                                        <FaHome></FaHome>
-                                        Volunteer Home</NavLink>
-                                </li>
+                                <Link to="/dashboard">
+                                    
+                                Volunteer Home</Link>
+                            </li>
+                            <li>
+                                <Link to="/dashboard/profile">
+                                   
+                                    Profile</Link>
+                            </li>
+                            <li>
+                                <Link to="/dashboard/all-blood-donation-request">
+                                    
+                                    All-Blood-Donation-Requests</Link>
+                            </li>
+                            <li>
+                                <Link to="/dashboard/content-management">
+                                    
+                                Content-management</Link>
+                            </li>
                                 
                                 
                                 
@@ -87,7 +98,7 @@ const Dashboard = () => {
                             <FaHome></FaHome>
                             Home</NavLink>
                     </li>
-                    <li>
+                    {/* <li>
                         <NavLink to="/">
                             <FaSearch></FaSearch>
                             Menu</NavLink>
@@ -96,7 +107,7 @@ const Dashboard = () => {
                         <NavLink to="/">
                             <FaEnvelope></FaEnvelope>
                             Contact</NavLink>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
             {/* dashboard content */}
