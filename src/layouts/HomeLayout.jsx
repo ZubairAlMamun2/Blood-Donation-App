@@ -3,6 +3,7 @@ import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
 import Banner from '../components/banner'
 import ContactUs from '../components/ContactUs'
+import FeaturedSection from '../components/FeaturedSection'
 
 
 
@@ -12,12 +13,7 @@ const HomeLayout = () => {
         <NavBar />
         <main className='min-h-[60vh]'>
           <Banner />
-          {/* <ThemeToggle />
-        <Banner />
-        <AssignmentTab />
-        <PendingTab/>
-        <AddnewAssignmentTab />
-        <Faqsection/> */}
+          <FeaturedSection />
         <ContactUs />
         </main>
         <Footer />
