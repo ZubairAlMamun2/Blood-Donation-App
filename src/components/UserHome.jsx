@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { CiSquareQuestion } from "react-icons/ci";
 import { FaUsers } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
 
 const UserHome = () => {
     const [countuser, setcountuser] = useState([]);
@@ -104,6 +105,11 @@ const UserHome = () => {
             <div className="col-span-1 flex items-center justify-center text-5xl font-bold"><FaUsers /></div>
             <div className="col-span-2 "><h2 className=" font-semibold ">Total Donor</h2>
             <p className="text-3xl font-bold">{countuser.length}</p></div>
+          </div>
+          <div className="card border-red-400 border-4 shadow-xl p-2 my-5 grid grid-cols-3">
+            <div className="col-span-1 flex items-center justify-center text-5xl font-bold"><RiMoneyDollarCircleFill /></div>
+            <div className="col-span-2 "><h2 className=" font-semibold ">Total Amount</h2>
+            <p className="text-3xl font-bold">300</p></div>
           </div>
           
         </div>:<></>

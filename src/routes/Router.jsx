@@ -6,7 +6,6 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import DonationRequest from "../components/DonationRequest";
 import Blogs from "../components/Blogs";
-import Funding from "../components/Funding";
 import Dashboard from "../components/Dashboard";
 import MyDonationREquest from "../components/MyDonationREquest";
 import CreateDonationRequest from "../components/CreateDonationRequest";
@@ -24,6 +23,7 @@ import PrivetRoute from "./PrivetRoute";
 import SecureForvolAndAdmin from "./SecureForvolAndAdmin";
 import SecureForAdmin from "./SecureForAdmin";
 import BlogDetails from "../components/BlogDetails";
+import Funding from "../components/Funding";
 
 const router = createBrowserRouter([
   {
