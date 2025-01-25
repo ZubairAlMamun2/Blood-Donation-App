@@ -28,8 +28,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/donation",
-    element: <PendingDonationRequest />,
-    loader:()=>fetch(`http://localhost:5000/mydonation`)
+    element: <PendingDonationRequest />
   },
   {
     path: "/blogs",
@@ -72,8 +71,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <UserHome />,
-        loader:()=>fetch(`http://localhost:5000/mydonation`)
+        element: <UserHome />
       },
       {
         path: 'profile',

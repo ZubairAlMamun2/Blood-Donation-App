@@ -5,15 +5,23 @@ import { Link, useLoaderData } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import NavBar from './NavBar'
 import Footer from './Footer'
+import { useQuery } from '@tanstack/react-query'
 const PendingDonationRequest = () => {
   const {user}=useContext(AuthContext)
      const [donation,setDoation]=useState([]);
-     const data=useLoaderData();
+     const { data: donations = [], refetch } = useQuery({
+        queryKey: ['donations'],
+        queryFn: async () => {
+            const res = await axios.get('http://localhost:5000/mydonation');
+            return res.data;
+        },
+        
+    })
      // 
      useEffect(()=>{
-         const filtred=data.filter(item=>item.donationStatus=="pending")
+         const filtred=donations.filter(item=>item.donationStatus=="pending")
         setDoation(filtred)
-     },[data,user])
+     },[user])
  
  
  

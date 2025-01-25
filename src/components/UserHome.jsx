@@ -5,6 +5,7 @@ import { Link, useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 import { CiSquareQuestion } from "react-icons/ci";
 import { FaUsers } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
 
 const UserHome = () => {
     const [countuser, setcountuser] = useState([]);
@@ -12,19 +13,33 @@ const UserHome = () => {
   const [donations, setDoations] = useState([]);
   const [filtreddonations, setfiltredDoations] = useState([]);
 
-  const data = useLoaderData();
+  const { data: loadeddonations = [], refetch } = useQuery({
+    queryKey: ['loadeddonations'],
+    queryFn: async () => {
+        const res = await axios.get('http://localhost:5000/mydonation');
+        return res.data;
+    },
+    
+})
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/all-user")
-      .then((res) => {
-        const donor=res.data.filter(item=>item.role=="donor")
-        setcountuser(donor)
-      });
-  }, []);
+ 
+  const { data: donor = [], refetch2 } = useQuery({
+    queryKey: ['donor'],
+    queryFn: async () => {
+        const res = await axios.get('http://localhost:5000/all-user');
+        return res.data
+    },
+    
+})
+ useEffect(() => {
+        
+        const donors=donor.filter(item=>item.role=="donor")
+        setcountuser(donors)
+      
+  }, [donor]);
   //
   useEffect(() => {
-    const filtreddata = data.filter(
+    const filtreddata = loadeddonations.filter(
       (item) => item.requesterEmail == user?.email
     );
     setDoations(filtreddata);
@@ -35,7 +50,7 @@ const UserHome = () => {
       .slice(0, 3);
     console.log(filteredDonations);
     setfiltredDoations(filteredDonations);
-  }, [data, user]);
+  }, [ user]);
 
   const handleDelete = (_id) => {
     Swal.fire({
@@ -83,7 +98,7 @@ const UserHome = () => {
           <div className="card border-red-400 border-4 shadow-xl p-2 my-5 grid grid-cols-3">
             <div className="col-span-1 flex items-center justify-center text-5xl font-bold"><CiSquareQuestion /></div>
             <div className="col-span-2 "><h2 className=" font-semibold ">Total Blood Donation Request</h2>
-            <p className="text-3xl font-bold">{data.length}</p></div>
+            <p className="text-3xl font-bold">{loadeddonations.length}</p></div>
           </div>
           <div className="card border-red-400 border-4 shadow-xl p-2 my-5 grid grid-cols-3">
             <div className="col-span-1 flex items-center justify-center text-5xl font-bold"><FaUsers /></div>
