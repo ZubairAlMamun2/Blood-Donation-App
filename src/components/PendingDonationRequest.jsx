@@ -21,7 +21,7 @@ const PendingDonationRequest = () => {
      useEffect(()=>{
          const filtred=donations.filter(item=>item.donationStatus=="pending")
         setDoation(filtred)
-     },[user])
+     },[user,donations])
  
  
  

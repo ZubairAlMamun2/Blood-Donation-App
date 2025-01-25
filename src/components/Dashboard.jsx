@@ -37,6 +37,11 @@ const Dashboard = () => {
                                     
                                 Content-management</Link>
                             </li>
+                            <li>
+                                <Link to="/dashboard/create-donation-request">
+                                    
+                                    Create-Donation-Request</Link>
+                            </li>
                             
                         </>
                             :
@@ -85,6 +90,11 @@ const Dashboard = () => {
                                 <Link to="/dashboard/content-management">
                                     
                                 Content-management</Link>
+                            </li>
+                            <li>
+                                <Link to="/dashboard/create-donation-request">
+                                    
+                                    Create-Donation-Request</Link>
                             </li>
                                 
                                 

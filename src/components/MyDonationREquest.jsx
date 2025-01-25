@@ -1,33 +1,32 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 
-const MyDonationREquest = () => {
- const[fetching,SetFetching]=useState('');
+const MyDonationRequest = () => {
   const { user } = useContext(AuthContext);
-  const [donation, setDoation] = useState([]);
-//   const data = useLoaderData();
+  const [donation, setDonation] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); // Number of items per page
+
   const { data: donations = [], refetch } = useQuery({
-    queryKey: ['donations'],
+    queryKey: ["donations"],
     queryFn: async () => {
-        const res = await axios.get('http://localhost:5000/mydonation');
-        return res.data;
+      const res = await axios.get("http://localhost:5000/mydonation");
+      return res.data;
     },
-    
-})
-  //
+  });
+
   useEffect(() => {
-    const filtreddata = donations.filter(
-      (item) => item.requesterEmail == user?.email
+    const filteredData = donations.filter(
+      (item) => item.requesterEmail === user?.email
     );
-    setDoation(filtreddata);
-  }, [donations, user,fetching]);
+    setDonation(filteredData);
+  }, [donations, user]);
 
   const handleDelete = (_id) => {
-    // console.log(_id, email);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -46,66 +45,64 @@ const MyDonationREquest = () => {
             if (res.deletedCount > 0) {
               Swal.fire({
                 title: "Success!",
-                text: "Donation Request Deleted succesfully",
+                text: "Donation Request Deleted successfully",
                 icon: "success",
                 confirmButtonText: "Cool",
               });
-
-            //   const filtereddata = donation.filter((user) => user._id !== _id);
-            //   setDoation(filtereddata);
-            refetch()
+              refetch();
             }
           });
       }
     });
   };
 
-  const makeDone=(id)=>{
+  const makeDone = (id) => {
     const donationStatus = "done";
-    const formData = {
-        donationStatus
-    };
     axios
-        .put(`http://localhost:5000/changedonatestatus/${id}`, formData, {
-          withCredentials: true,
-        })
-        .then((res) => {
-          if (res.data.acknowledged) {
-            Swal.fire({
-              title: "Success!",
-              text: "Status Updated succesfully",
-              icon: "success",
-              confirmButtonText: "Cool",
-            });  
-            //navigate("/donation")         
-            refetch()
-          }
-        });
-  }
-  const makeCalcele=(id)=>{
-    const donationStatus = "canceled";
-    const formData = {
-        donationStatus
-    };
-    axios
-        .put(`http://localhost:5000/changedonatestatus/${id}`, formData, {
-          withCredentials: true,
-        })
-        .then((res) => {
-          if (res.data.acknowledged) {
-            Swal.fire({
-              title: "Success!",
-              text: "Status Updated succesfully",
-              icon: "success",
-              confirmButtonText: "Cool",
-            });  
-            //navigate("/donation")         
-            refetch()
-          }
-        });
-  }
+      .put(`http://localhost:5000/changedonatestatus/${id}`, { donationStatus })
+      .then((res) => {
+        if (res.data.acknowledged) {
+          Swal.fire({
+            title: "Success!",
+            text: "Status Updated successfully",
+            icon: "success",
+            confirmButtonText: "Cool",
+          });
+          refetch();
+        }
+      });
+  };
 
-  console.log(donation);
+  const makeCancel = (id) => {
+    const donationStatus = "canceled";
+    axios
+      .put(`http://localhost:5000/changedonatestatus/${id}`, { donationStatus })
+      .then((res) => {
+        if (res.data.acknowledged) {
+          Swal.fire({
+            title: "Success!",
+            text: "Status Updated successfully",
+            icon: "success",
+            confirmButtonText: "Cool",
+          });
+          refetch();
+        }
+      });
+  };
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentDonations = donation.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(donation.length / itemsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
 
   return (
     <div className="w-48">
@@ -114,76 +111,92 @@ const MyDonationREquest = () => {
         <thead>
           <tr className="border">
             <th>Recipient Name</th>
-            <th>Recipient location</th>
-            <th>Donation date</th>
-            <th>Donation time</th>
-            <th>Blood group</th>
-            <th>Donation status</th>
-            <th>Donor information</th>
+            <th>Recipient Location</th>
+            <th>Donation Date</th>
+            <th>Donation Time</th>
+            <th>Blood Group</th>
+            <th>Donation Status</th>
+            <th>Donor Information</th>
             <th></th>
             <th></th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {/* row 1 */}
-          {donation.map((item) => {
-            return (
-              <tr key={item._id} className="border">
-                <td>{item.recipientName}</td>
-                <td>
-                  {item.selecteddistrict},{item.selectedupazila}
-                </td>
-                <td>{item.date}</td>
-                <td>{item.time}</td>
-                <td>{item.bloodGroup}</td>
-                <td>
-                  {item.donationStatus == "inprogress" ? (
-                    <>
-                      <button onClick={()=>{
-                        makeDone(item._id)
-                      }} className="btn m-1">done</button>
-                      <button onClick={()=>{
-                        makeCalcele(item._id)
-                      }} className="btn">cancel</button>
-                    </>
-                  ) : (
-                    <>{item.donationStatus}</>
-                  )}
-                </td>
-                <td>
-                  {item.donationStatus == "inprogress" ? (
-                    <p>
-                      {item.donorName},{item.donorEmail}
-                    </p>
-                  ) : (
-                    <></>
-                  )}
-                </td>
-                <td>
-                  <Link to={`/dashboard/update-donation-request/${item._id}`}>
-                    Edit
-                  </Link>
-                </td>
-                <td>
-                  <button
-                    onClick={() => {
-                      handleDelete(item._id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
-                <td>
-                  <Link to={`/details-donation-request/${item._id}`}>View</Link>
-                </td>
-              </tr>
-            );
-          })}
+          {currentDonations.map((item) => (
+            <tr key={item._id} className="border">
+              <td>{item.recipientName}</td>
+              <td>
+                {item.selecteddistrict}, {item.selectedupazila}
+              </td>
+              <td>{item.date}</td>
+              <td>{item.time}</td>
+              <td>{item.bloodGroup}</td>
+              <td>
+                {item.donationStatus === "inprogress" ? (
+                  <>
+                    <button
+                      onClick={() => makeDone(item._id)}
+                      className="btn m-1"
+                    >
+                      Done
+                    </button>
+                    <button
+                      onClick={() => makeCancel(item._id)}
+                      className="btn"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>{item.donationStatus}</>
+                )}
+              </td>
+              <td>
+                {item.donationStatus === "inprogress" ? (
+                  <p>
+                    {item.donorName}, {item.donorEmail}
+                  </p>
+                ) : null}
+              </td>
+              <td>
+                <Link to={`/dashboard/update-donation-request/${item._id}`}>
+                  Edit
+                </Link>
+              </td>
+              <td>
+                <button onClick={() => handleDelete(item._id)}>Delete</button>
+              </td>
+              <td>
+                <Link to={`/details-donation-request/${item._id}`}>View</Link>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+          className="btn"
+        >
+          Previous
+        </button>
+        <span className="px-4">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className="btn"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
 
-export default MyDonationREquest;
+export default MyDonationRequest;

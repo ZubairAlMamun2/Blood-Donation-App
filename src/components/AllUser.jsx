@@ -1,145 +1,114 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import React, { useState } from "react";
 import Swal from "sweetalert2";
 
 const AllUser = () => {
-//   const [data, setData] = useState([]);
-//   const [id, setId] = useState("");
-//   console.log(data);
-//   useEffect(() => {
-//     axios
-//       .get("http://localhost:5000/all-user")
-//       .then((res) => setData(res.data));
-//   }, [id]);
-const { data: users = [], refetch } = useQuery({
-    queryKey: ['users'],
+  const { data: users = [], refetch } = useQuery({
+    queryKey: ["users"],
     queryFn: async () => {
-        const res = await axios.get('http://localhost:5000/all-user');
-        return res.data;
+      const res = await axios.get("http://localhost:5000/all-user");
+      return res.data;
     },
-    
-})
+  });
+
+  const [filter, setFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1); // Current page state
+  const rowsPerPage = 5; // Number of rows per page
+
+  // Handle dropdown change
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+    setCurrentPage(1); // Reset to the first page when filter changes
+  };
+
+  // Filter users based on the selected filter
+  const filteredUsers = users.filter((user) => {
+    if (filter === "all") return true;
+    return user.status === filter;
+  });
+
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(filteredUsers.length / rowsPerPage);
+
+  // Determine the users to display on the current page
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstRow, indexOfLastRow);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const handleBlock = (id) => {
-    console.log(id);
-    let status = "blocked";
-    const user = {
-      status,
-    };
-    axios
-      .put(`http://localhost:5000/updatestatus/${id}`, user, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        // console.log(res.data);
-        if (res.data.modifiedCount > 0) {
-          Swal.fire({
-            title: "Success!",
-            text: "User Updated succesfully",
-            icon: "success",
-            confirmButtonText: "Cool",
-          });
-        //   setId();
+    const user = { status: "blocked" };
+    axios.put(`http://localhost:5000/updatestatus/${id}`, user).then((res) => {
+      if (res.data.modifiedCount > 0) {
+        Swal.fire("Success!", "User Updated successfully", "success");
         refetch();
-          
-          //   navigate(location?.state ? location.state : "/assignments");
-        }
-      });
+      }
+    });
   };
+
   const handleUnBlock = (id) => {
-    console.log(id);
-    let status = "active";
-    const user = {
-      status,
-    };
-    axios
-      .put(`http://localhost:5000/updatestatus/${id}`, user, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        // console.log(res.data);
-        if (res.data.modifiedCount > 0) {
-          Swal.fire({
-            title: "Success!",
-            text: "User Updated succesfully",
-            icon: "success",
-            confirmButtonText: "Cool",
-          });
-          refetch();
-          //   navigate(location?.state ? location.state : "/assignments");
-        }
-      });
+    const user = { status: "active" };
+    axios.put(`http://localhost:5000/updatestatus/${id}`, user).then((res) => {
+      if (res.data.modifiedCount > 0) {
+        Swal.fire("Success!", "User Updated successfully", "success");
+        refetch();
+      }
+    });
   };
+
   const makeAdmin = (id) => {
-    console.log(id);
-    const role = "admin";
-    const user = {
-      role,
-    };
-    axios
-      .put(`http://localhost:5000/updaterole/${id}`, user, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        // console.log(res.data);
-        if (res.data.modifiedCount > 0) {
-          Swal.fire({
-            title: "Success!",
-            text: "User Updated succesfully",
-            icon: "success",
-            confirmButtonText: "Cool",
-          });
-          refetch();
-          //   navigate(location?.state ? location.state : "/assignments");
-        }
-      });
+    const user = { role: "admin" };
+    axios.put(`http://localhost:5000/updaterole/${id}`, user).then((res) => {
+      if (res.data.modifiedCount > 0) {
+        Swal.fire("Success!", "User Updated successfully", "success");
+        refetch();
+      }
+    });
   };
-  const makevolunteer = (id) => {
-    console.log(id);
-    const role = "volunteer";
-    const user = {
-      role,
-    };
-    axios
-      .put(`http://localhost:5000/updaterole/${id}`, user, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        // console.log(res.data);
-        if (res.data.modifiedCount > 0) {
-          Swal.fire({
-            title: "Success!",
-            text: "User Updated succesfully",
-            icon: "success",
-            confirmButtonText: "Cool",
-          });
-          refetch();
-          //   navigate(location?.state ? location.state : "/assignments");
-        }
-      });
+
+  const makeVolunteer = (id) => {
+    const user = { role: "volunteer" };
+    axios.put(`http://localhost:5000/updaterole/${id}`, user).then((res) => {
+      if (res.data.modifiedCount > 0) {
+        Swal.fire("Success!", "User Updated successfully", "success");
+        refetch();
+      }
+    });
   };
 
   return (
     <div className="w-48">
+      <div className="flex justify-start items-center gap-2 py-2">
+        <h1>User List: </h1>
+        <select
+          value={filter}
+          onChange={handleFilterChange}
+          className="p-2 border rounded mb-4"
+        >
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="blocked">Blocked</option>
+        </select>
+      </div>
       <table className="table">
-        {/* head */}
         <thead>
           <tr className="border">
-            <th>user avatar</th>
-            <th>user email</th>
-            <th>user name</th>
-            <th>user role</th>
-            <th>user status</th>
+            <th>User Avatar</th>
+            <th>User Email</th>
+            <th>User Name</th>
+            <th>User Role</th>
+            <th>User Status</th>
             <th>Manage Status</th>
             <th>Manage Role</th>
           </tr>
         </thead>
         <tbody>
-          {/* row 1 */}
-          {users?.map((item) => {
-            return (
+          {currentUsers.length > 0 ? (
+            currentUsers.map((item) => (
               <tr key={item._id} className="border">
                 <td>
                   <img
@@ -153,66 +122,62 @@ const { data: users = [], refetch } = useQuery({
                 <td>{item.role}</td>
                 <td>{item.status}</td>
                 <td>
-                  {item.status == "active" ? (
+                  {item.status === "active" ? (
                     <button
                       className="btn"
-                      onClick={() => {
-                        handleBlock(item._id);
-                      }}
+                      onClick={() => handleBlock(item._id)}
                     >
                       Block
                     </button>
                   ) : (
                     <button
                       className="btn"
-                      onClick={() => {
-                        handleUnBlock(item._id);
-                      }}
+                      onClick={() => handleUnBlock(item._id)}
                     >
-                      UnBlock
+                      Unblock
                     </button>
                   )}
                 </td>
                 <td>
-                  {item.role == "donor" ? (
+                  {item.role === "donor" ? (
                     <>
                       <button
                         className="btn"
-                        onClick={() => {
-                          makeAdmin(item._id);
-                        }}
+                        onClick={() => makeAdmin(item._id)}
                       >
                         Make Admin
                       </button>
-                      <br />{" "}
                       <button
                         className="btn my-2"
-                        onClick={() => {
-                          makevolunteer(item._id);
-                        }}
+                        onClick={() => makeVolunteer(item._id)}
                       >
-                        Make volunteer
+                        Make Volunteer
                       </button>
                     </>
-                  ) : item.role == "admin" ? (
-                    <></>
-                  ) : (
-                    <button
-                      className="btn"
-                      onClick={() => {
-                        makeAdmin(item._id);
-                      }}
-                    >
-                      Make Admin
-                    </button>
-                  )}
+                  ) : null}
                 </td>
-                {/* <td><Link to={`/dashboard/details-donation-request/${item._id}`} >View</Link></td> */}
               </tr>
-            );
-          })}
+            ))
+          ) : (
+            <p>No users found for the selected filter.</p>
+          )}
         </tbody>
       </table>
+      <div className="flex justify-center mt-4">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`px-4 py-2 mx-1 rounded ${
+              currentPage === index + 1
+                ? "bg-blue-500 text-white"
+                : "bg-gray-300"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
