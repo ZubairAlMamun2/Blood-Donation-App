@@ -4,10 +4,12 @@ import axios from "axios";
 import { Link, useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
+import UseAxiosSecure from "./UseAxiosSecure";
 
 const AllBloodDonationRequest = () => {
     const [fetching, SetFetching] = useState("");
     const { user, userData } = useContext(AuthContext);
+    const axiossecure=UseAxiosSecure()
   
     const { data: donation = [], refetch } = useQuery({
       queryKey: ["donation"],

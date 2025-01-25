@@ -2,8 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import UseAxiosSecure from "./UseAxiosSecure";
 
 const AllUser = () => {
+    const axiossecure = UseAxiosSecure();
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
