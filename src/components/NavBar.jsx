@@ -9,7 +9,7 @@ const NavBar = () => {
 
   
   return (
-    <div className="navbar bg-slate-400 broder-none rounded-b-lg mb-5 mt-1">
+    <div className="navbar bg-slate-400 broder-none rounded-b-lg mb-5 mt-1 relative">
       <div className="navbar-start">
         <div className="dropdown">
           <div
@@ -34,7 +34,7 @@ const NavBar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box  mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box  mt-3 w-52 p-2 shadow z-50"
           >
             <div className="flex  justify-end flex-col gap-3  font-semibold text-base">
               <Link to="/">Home</Link>
@@ -65,9 +65,9 @@ const NavBar = () => {
             </div>
           </ul>
         </div>
-        <a className="btn  -ml-5 md:-ml-0  btn-ghost text-lg md:text-xl">
-          Blood Bank
-        </a>
+        <div>
+          <img className="w-16 h-14" src="https://i.ibb.co.com/bNnfWm7/bloodbank.jpg" alt="" />
+        </div>
 
         
       </div>
@@ -82,16 +82,16 @@ const NavBar = () => {
                 <div>
                   
                   <img
-                    title={userData.displayName}
+                    title={userData.name}
                     className="w-10 h-10 border rounded-full"
-                    src={userData.photoURL}
+                    src={userData.photo}
                   />
                 </div>
               </div>
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-[1] mt-0 -mr-5  
+              className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-50 mt-0 -mr-5  
             w-54  p-2 shadow"
             >
               <div className=" font-semibold text-base px-1">
@@ -146,16 +146,16 @@ const NavBar = () => {
                 <div>
                   
                   <img
-                    title={user.displayName}
+                    title={userData.name}
                     className="w-10 h-10 border rounded-full"
-                    src={user.photoURL}
+                    src={userData.photo}
                   />
                 </div>
               </div>
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-[1] mt-0 -mr-5  
+              className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-[100] mt-0 -mr-5  
             w-54  p-2 shadow"
             >
               <div className=" font-semibold text-base px-1">

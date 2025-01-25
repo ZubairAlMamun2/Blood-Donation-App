@@ -20,6 +20,10 @@ import AddBlog from "../components/AddBlog";
 import UserHome from "../components/UserHome";
 import SearchDonor from "../components/SearchDonor";
 import PendingDonationRequest from "../components/PendingDonationRequest";
+import PrivetRoute from "./PrivetRoute";
+import SecureForvolAndAdmin from "./SecureForvolAndAdmin";
+import SecureForAdmin from "./SecureForAdmin";
+import BlogDetails from "../components/BlogDetails";
 
 const router = createBrowserRouter([
   {
@@ -35,8 +39,12 @@ const router = createBrowserRouter([
     element: <Blogs />,
   },
   {
+    path: "/blogdetails/:id",
+    element: <BlogDetails />,
+  },
+  {
     path: "/funding",
-    element: <Funding />,
+    element: <PrivetRoute><Funding /></PrivetRoute>,
   },
   {
     path: "/searchdonor",
@@ -44,11 +52,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <PrivetRoute><Dashboard /></PrivetRoute>,
   },
   {
     path: 'details-donation-request/:id',
-    element: <DonationRequstDetails />,
+    element: <PrivetRoute><DonationRequstDetails /></PrivetRoute>,
   },
   {
     path: "/auth",
@@ -67,7 +75,7 @@ const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <Dashboard />,
+    element: <PrivetRoute><Dashboard /></PrivetRoute>,
     children: [
       {
         path: '',
@@ -79,7 +87,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'content-management',
-        element: <ContentManagement />
+        element:<SecureForvolAndAdmin> <ContentManagement /></SecureForvolAndAdmin>
       },
       {
         path: 'content-management/add-blog',
@@ -87,7 +95,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'all-user',
-        element: <AllUser />
+        element:<SecureForAdmin> <AllUser /></SecureForAdmin>
       },
       
       {

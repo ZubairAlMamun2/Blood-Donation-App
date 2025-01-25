@@ -80,7 +80,7 @@ const ProfilePage = () => {
           <label>Avatar:</label>
           <input
             type="text"
-            name="avatar"
+            name="photo"
             value={userData?.photo}
             onChange={handleChange}
             disabled={!isEditable}

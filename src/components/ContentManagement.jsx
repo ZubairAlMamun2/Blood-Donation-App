@@ -13,7 +13,7 @@ const BlogPost = ({ htmlString }) => {
 };
 
 const ContentManagement = () => {
-  const [id, setId] = useState("");
+
   //   const [blogs, setBlogs] = useState([]);
   const { userData } = useContext(AuthContext);
   //   useEffect(() => {
