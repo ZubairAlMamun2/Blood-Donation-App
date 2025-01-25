@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
 const BlogPost = ({ htmlString }) => {
   return (
     <div>
@@ -13,13 +14,21 @@ const BlogPost = ({ htmlString }) => {
 
 const ContentManagement = () => {
     const [id, setId] = useState("");
-  const [blogs, setBlogs] = useState([]);
+//   const [blogs, setBlogs] = useState([]);
   const { userData } = useContext(AuthContext);
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/all-blog")
-      .then((res) => setBlogs(res.data));
-  }, [userData,id]);
+//   useEffect(() => {
+//     axios
+//       .get("http://localhost:5000/all-blog")
+//       .then((res) => setBlogs(res.data));
+//   }, [userData,id]);
+const { data: blogs = [], refetch } = useQuery({
+    queryKey: ['blogs'],
+    queryFn: async () => {
+        const res = await axios.get('http://localhost:5000/all-blog');
+        return res.data;
+    },
+    
+})
 
 
 
@@ -42,7 +51,7 @@ const ContentManagement = () => {
             icon: "success",
             confirmButtonText: "Cool",
           });
-          setId(id + 1);
+          refetch()
           //   navigate(location?.state ? location.state : "/assignments");
         }
       });
@@ -66,7 +75,7 @@ const ContentManagement = () => {
             icon: "success",
             confirmButtonText: "Cool",
           });
-          setId(id);
+          refetch()
           //   navigate(location?.state ? location.state : "/assignments");
         }
       });
@@ -97,7 +106,7 @@ const ContentManagement = () => {
                     });
                     // const filtereddata = donation.filter((user) => user._id !== _id);
                     // setDoation(filtereddata);
-                    setId(_id+2);
+                    refetch()
                   }
                 });
             }

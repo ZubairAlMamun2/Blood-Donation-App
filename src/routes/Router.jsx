@@ -89,19 +89,16 @@ const router = createBrowserRouter([
       },
       {
         path: 'all-user',
-        element: <AllUser />,
-        loader:()=>fetch(`http://localhost:5000/all-user`)
+        element: <AllUser />
       },
       
       {
         path: 'my-donation-requests',
-        element: <MyDonationREquest />,
-        loader:()=>fetch(`http://localhost:5000/mydonation`)
+        element: <MyDonationREquest />
       },
       {
         path: 'all-blood-donation-request',
-        element: <AllBloodDonationRequest />,
-        loader:()=>fetch(`http://localhost:5000/mydonation`)
+        element: <AllBloodDonationRequest />
       },
       {
         path: 'create-donation-request',

@@ -1,17 +1,26 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const AllUser = () => {
-  const [data, setData] = useState([]);
-  const [id, setId] = useState("");
-  console.log(data);
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/all-user")
-      .then((res) => setData(res.data));
-  }, [id]);
+//   const [data, setData] = useState([]);
+//   const [id, setId] = useState("");
+//   console.log(data);
+//   useEffect(() => {
+//     axios
+//       .get("http://localhost:5000/all-user")
+//       .then((res) => setData(res.data));
+//   }, [id]);
+const { data: users = [], refetch } = useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+        const res = await axios.get('http://localhost:5000/all-user');
+        return res.data;
+    },
+    
+})
 
   const handleBlock = (id) => {
     console.log(id);
@@ -32,7 +41,9 @@ const AllUser = () => {
             icon: "success",
             confirmButtonText: "Cool",
           });
-          setId(id + 1);
+        //   setId();
+        refetch();
+          
           //   navigate(location?.state ? location.state : "/assignments");
         }
       });
@@ -56,7 +67,7 @@ const AllUser = () => {
             icon: "success",
             confirmButtonText: "Cool",
           });
-          setId(id);
+          refetch();
           //   navigate(location?.state ? location.state : "/assignments");
         }
       });
@@ -80,7 +91,7 @@ const AllUser = () => {
             icon: "success",
             confirmButtonText: "Cool",
           });
-          setId(id + 2);
+          refetch();
           //   navigate(location?.state ? location.state : "/assignments");
         }
       });
@@ -104,7 +115,7 @@ const AllUser = () => {
             icon: "success",
             confirmButtonText: "Cool",
           });
-          setId(id + 1);
+          refetch();
           //   navigate(location?.state ? location.state : "/assignments");
         }
       });
@@ -127,7 +138,7 @@ const AllUser = () => {
         </thead>
         <tbody>
           {/* row 1 */}
-          {data?.map((item) => {
+          {users?.map((item) => {
             return (
               <tr key={item._id} className="border">
                 <td>

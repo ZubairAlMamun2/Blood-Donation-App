@@ -3,21 +3,29 @@ import { AuthContext } from '../provider/AuthProvider'
 import axios from 'axios'
 import { Link, useLoaderData } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { useQuery } from '@tanstack/react-query'
 
 const AllBloodDonationRequest = () => {
+     const[fetching,SetFetching]=useState('');
     const {user,userData}=useContext(AuthContext)
-    const [donation,setDoation]=useState([]);
-    const data=useLoaderData();
-    // 
-    useEffect(()=>{
+    // const [donation,setDoation]=useState([]);
+    // const data=useLoaderData();
+    // // 
+
+    const { data: donation = [], refetch } = useQuery({
+        queryKey: ['donation'],
+        queryFn: async () => {
+            const res = await axios.get('http://localhost:5000/mydonation');
+            return res.data;
+        },
         
-          setDoation(data)
-    },[data,user])
+    })
+
 
 
     
     const handleDelete = (_id) => {
-
+        
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -40,8 +48,7 @@ const AllBloodDonationRequest = () => {
                     icon: "success",
                     confirmButtonText: "Cool",
                   });
-                  const filtereddata = donation.filter((user) => user._id !== _id);
-                  setDoation(filtereddata);
+                  refetch()
                 }
               });
           }
@@ -57,6 +64,51 @@ const AllBloodDonationRequest = () => {
     //         console.log(donation)
     //     })
     // },[user])
+    const makeDone=(id)=>{
+
+        const donationStatus = "done";
+        const formData = {
+            donationStatus
+        };
+        axios
+            .put(`http://localhost:5000/changedonatestatus/${id}`, formData, {
+              withCredentials: true,
+            })
+            .then((res) => {
+              if (res.data.acknowledged) {
+                Swal.fire({
+                  title: "Success!",
+                  text: "Status Updated succesfully",
+                  icon: "success",
+                  confirmButtonText: "Cool",
+                });  
+                //navigate("/donation")         
+                refetch()
+              }
+            });
+      }
+      const makeCalcele=(id)=>{
+        const donationStatus = "canceled";
+        const formData = {
+            donationStatus
+        };
+        axios
+            .put(`http://localhost:5000/changedonatestatus/${id}`, formData, {
+              withCredentials: true,
+            })
+            .then((res) => {
+              if (res.data.acknowledged) {
+                Swal.fire({
+                  title: "Success!",
+                  text: "Status Updated succesfully",
+                  icon: "success",
+                  confirmButtonText: "Cool",
+                });  
+                //navigate("/donation")         
+                refetch()
+              }
+            });
+      }
     console.log(donation);
     
   return (
@@ -86,8 +138,29 @@ const AllBloodDonationRequest = () => {
             <td>{item.date}</td>
             <td>{item.time}</td>
             <td>{item.bloodGroup}</td>
-            <td>{item.donationStatus}</td>
-            <td></td>
+            <td>
+                  {item.donationStatus == "inprogress" ? (
+                    <>
+                      <button onClick={()=>{
+                        makeDone(item._id)
+                      }} className="btn m-1">done</button>
+                      <button onClick={()=>{
+                        makeCalcele(item._id)
+                      }} className="btn">cancel</button>
+                    </>
+                  ) : (
+                    <>{item.donationStatus}</>
+                  )}
+                </td>
+                <td>
+                  {item.donationStatus == "inprogress" ? (
+                    <p>
+                      {item.donorName},{item.donorEmail}
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                </td>
             <td>{userData.role=="admin"?<Link to={`/dashboard/update-donation-request/${item._id}`} >Edit</Link>:<></>}</td>
             <td>{userData.role=="admin"?<button onClick={()=>{
                 handleDelete(item._id)
