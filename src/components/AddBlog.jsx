@@ -35,7 +35,7 @@ const AddBlog = ({ placeholder }) => {
     
         axios
         .post(
-          `http://localhost:5000/addnewblog`,
+          `https://blood-donation-xi-two.vercel.app/addnewblog`,
           formData,
           { withCredentials: true }
         )
@@ -101,7 +101,7 @@ const AddBlog = ({ placeholder }) => {
           
 
           <div className="form-control mt-6">
-            <button className="btn btn-neutral rounded-none">Create</button>
+            <button className="btn btn-primary btn-sm rounded-none">Create</button>
           </div>
         </form>
        

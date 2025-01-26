@@ -20,7 +20,7 @@ const SearchDonor = () => {
   useEffect(()=>{
             axios
             .get(
-              `http://localhost:5000/all-user`,
+              `https://blood-donation-xi-two.vercel.app/all-user`,
         
               { withCredentials: true }
             )
@@ -92,7 +92,7 @@ const SearchDonor = () => {
   return (
     <div className="min-h-screen md:flex justify-evenly items-center">
       <div className="card rounded-none shadow-xl bg-base-100 w-full max-w-lg shrink-0 p-10">
-      <Link to="/"  className="text-lg my-3 btn font-semibold text-center">
+      <Link to="/"  className="text-lg my-3 btn btn-primary btn-sm font-semibold text-center">
          Go Back 
         </Link>
         <h2 className="text-2xl font-semibold text-center">
@@ -168,7 +168,7 @@ const SearchDonor = () => {
 
           
           <div className="form-control mt-6">
-            <button className="btn btn-neutral rounded-none">Search</button>
+            <button className="btn btn-primary btn-sm rounded-none">Search</button>
           </div>
         </form>
 

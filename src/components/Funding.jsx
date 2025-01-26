@@ -8,7 +8,7 @@ const Funding = () => {
     const { data: funds = [], refetch } = useQuery({
         queryKey: ["funds"],
         queryFn: async () => {
-          const res = await axios.get("http://localhost:5000/totalfunds");
+          const res = await axios.get("https://blood-donation-xi-two.vercel.app/totalfunds");
           return res.data;
         },
       });
@@ -19,8 +19,8 @@ const Funding = () => {
             <NavBar />
         </header>
         <main className='min-h-[60vh]'>
-            <button className='btn'>Pay</button>
-            <table className="table w-48">
+            <button className='btn btn-primary btn-sm'>Pay</button>
+            <table className="table mt-5">
           {/* Head */}
           <thead>
             <tr className="border">

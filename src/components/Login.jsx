@@ -39,7 +39,7 @@ const Login = () => {
       .then((result) => {
         // console.log(result.user);
         setUser(result.user);
-        axios.get(`http://localhost:5000/login/${email}`)
+        axios.get(`https://blood-donation-xi-two.vercel.app/login/${email}`)
           .then(res=>res.data.status=="active"?setActive("true"):setActive("false"))
           
         setError("");
@@ -113,7 +113,7 @@ const Login = () => {
           </div>
           <h2 className="text-red-500">{error && error}</h2>
           <div className="form-control mt-6">
-            <button className="btn btn-neutral rounded-none">Login</button>
+            <button className="btn btn-primary btn-sm rounded-none">Login</button>
           </div>
         </form>
         <p className="text-center text-sm">

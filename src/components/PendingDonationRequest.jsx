@@ -12,7 +12,7 @@ const PendingDonationRequest = () => {
      const { data: donations = [], refetch } = useQuery({
         queryKey: ['donations'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/mydonation');
+            const res = await axios.get('https://blood-donation-xi-two.vercel.app/mydonation');
             return res.data;
         },
         
@@ -52,7 +52,7 @@ const PendingDonationRequest = () => {
              <td>{item.bloodGroup}</td>
              <td>{item.date}</td>
              <td>{item.time}</td>
-             <td><Link className='btn' to={`/details-donation-request/${item._id}`} >View</Link></td>
+             <td><Link className='btn btn-primary btn-sm' to={`/details-donation-request/${item._id}`} >View</Link></td>
              
            </tr>
          })

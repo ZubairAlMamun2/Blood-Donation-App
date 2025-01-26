@@ -104,7 +104,7 @@ const Register = () => {
             
             axios
               .post(
-                `http://localhost:5000/addnewuser`,
+                `https://blood-donation-xi-two.vercel.app/addnewuser`,
                 formData,
                 { withCredentials: true }
               )
@@ -293,7 +293,7 @@ const Register = () => {
           </div>
           <h2 className="text-red-500">{error && error}</h2>
           <div className="form-control mt-6">
-            <button className="btn btn-neutral rounded-none">Register</button>
+            <button className="btn btn-primary btn-sm rounded-none">Register</button>
           </div>
         </form>
         <p className="text-center text-sm">

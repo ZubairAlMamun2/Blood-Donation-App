@@ -31,8 +31,8 @@ const AuthProvider = ({ children }) => {
       role: '',
     });
     useEffect(()=>{
-      axios.get(`http://localhost:5000/login/${user?.email}`)
-      .then(res=>setUser({
+      axios.get(`https://blood-donation-xi-two.vercel.app/login/${user?.email}`)
+      .then(res=>setUserData({
         name: res.data?.name,
         email: res.data?.email,
         photo: res.data?.photo,
@@ -46,13 +46,6 @@ const AuthProvider = ({ children }) => {
   const [isActive, setActive] = useState("false");
 
   const [loading, setLoading] = useState(true);
-  const [theme, setTheme] = useState(
-      localStorage.getItem("theme") || "light"
-    );
-    useEffect(() => {
-      document.documentElement.setAttribute("data-theme", theme);
-      localStorage.setItem("theme", theme); // Persist theme in localStorage
-    }, [theme]);
 
 
 
@@ -62,7 +55,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const Logout = () => {
-    setLoading(false);
+    setLoading(true);
     setActive("false")
     return signOut(auth);
   };
@@ -89,7 +82,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
 
-        const response = await axios.get(`http://localhost:5000/user/${user?.email}`);
+        const response = await axios.get(`https://blood-donation-xi-two.vercel.app/user/${user?.email}`);
         setUserData(response.data);
       
     };
@@ -99,21 +92,21 @@ const AuthProvider = ({ children }) => {
 
   // console.log(isActive)
 
-  const UserInfo = {userData,setUserData,isActive,setActive, user,setTheme,theme, setUser, createNewUser, Logout, Login, loading,UpdateUserProfile,SignInWithGoogle,ResetUserPassword };
+  const UserInfo = {userData,setUserData,isActive,setActive, user, setUser, createNewUser, Logout, Login, loading,UpdateUserProfile,SignInWithGoogle,ResetUserPassword };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
       setUser(currentuser);
       if(currentuser?.email){
         const user={email:currentuser.email}
-            axios.post('http://localhost:5000/jwt',user,{withCredentials:true})
+            axios.post('https://blood-donation-xi-two.vercel.app/jwt',user,{withCredentials:true})
             .then((res)=>{
                 // console.log(res.data)
                 setLoading(false);
             })
         }
         else{
-            axios.post('http://localhost:5000/logout',{},{withCredentials:true})
+            axios.post('https://blood-donation-xi-two.vercel.app/logout',{},{withCredentials:true})
             .then((res)=>{
                 // console.log('logout',res.data)
                 setLoading(false);

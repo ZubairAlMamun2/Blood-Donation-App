@@ -11,7 +11,7 @@ const DonationRequstDetails = () => {
   const navigate =useNavigate()
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/donation/${id}`)
+      .get(`https://blood-donation-xi-two.vercel.app/donation/${id}`)
       .then((res) => setDonation(res.data));
   }, []);
   console.log(donation);
@@ -26,7 +26,7 @@ const DonationRequstDetails = () => {
         donationStatus
     };
     axios
-        .put(`http://localhost:5000/donate/${donation?._id}`, formData, {
+        .put(`https://blood-donation-xi-two.vercel.app/donate/${donation?._id}`, formData, {
           withCredentials: true,
         })
         .then((res) => {
@@ -48,7 +48,7 @@ const DonationRequstDetails = () => {
         <div className="card  bg-base-100 w-96 shadow-xl">
           <Link
             to="/donation"
-            className="text-lg my-2  btn font-semibold text-center"
+            className="text-lg my-2  btn btn-primary btn-sm font-semibold text-center"
           >
             Go Back
           </Link>
@@ -66,7 +66,7 @@ const DonationRequstDetails = () => {
             <p>Donation Time:{donation.time}</p>
             <p>Request Message:{donation.requestMessage}</p>
             <div className="card-actions justify-end">
-              <label htmlFor="my_modal_6" className="btn btn-primary">
+              <label htmlFor="my_modal_6" className="btn btn-primary btn-sm">
                 Donate
               </label>
             </div>
@@ -106,7 +106,7 @@ const DonationRequstDetails = () => {
               />
             </div>
             <div className="form-control mt-6">
-              <button  className="btn">
+              <button  className="btn btn-primary btn-sm">
                  <label htmlFor="my_modal_6">Donate</label>
               </button>
             </div>

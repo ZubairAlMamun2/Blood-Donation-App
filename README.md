@@ -1,8 +1,22 @@
-# React + Vite
+# Blood Donation (https://bloooddonate-1971.netlify.app/)
+ 
+## Purpose 
+- The purpose of the Blood Donation Application is to create a user-friendly platform that
+facilitates blood donation activities. The application will connect donors with those in
+need of blood, promoting a seamless and ecient donation process.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+##  NPM packages
 
-Currently, two official plugins are available:
+- react-sweetalert2
+- react-icon
+- axios
+- TanStackQuery
+- etc..
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## key features
+- In this project we use firebase to authentacet user
+- Hosting the project in Netlify
+- We also use useContext Api
+- Data storage in mongodb
+- using JWT verification
+- etc..

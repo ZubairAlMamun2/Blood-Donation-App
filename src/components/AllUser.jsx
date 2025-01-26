@@ -9,7 +9,7 @@ const AllUser = () => {
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/all-user");
+      const res = await axios.get("https://blood-donation-xi-two.vercel.app/all-user");
       return res.data;
     },
   });
@@ -44,7 +44,7 @@ const AllUser = () => {
 
   const handleBlock = (id) => {
     const user = { status: "blocked" };
-    axios.put(`http://localhost:5000/updatestatus/${id}`, user).then((res) => {
+    axios.put(`https://blood-donation-xi-two.vercel.app/updatestatus/${id}`, user).then((res) => {
       if (res.data.modifiedCount > 0) {
         Swal.fire("Success!", "User Updated successfully", "success");
         refetch();
@@ -54,7 +54,7 @@ const AllUser = () => {
 
   const handleUnBlock = (id) => {
     const user = { status: "active" };
-    axios.put(`http://localhost:5000/updatestatus/${id}`, user).then((res) => {
+    axios.put(`https://blood-donation-xi-two.vercel.app/updatestatus/${id}`, user).then((res) => {
       if (res.data.modifiedCount > 0) {
         Swal.fire("Success!", "User Updated successfully", "success");
         refetch();
@@ -64,7 +64,7 @@ const AllUser = () => {
 
   const makeAdmin = (id) => {
     const user = { role: "admin" };
-    axios.put(`http://localhost:5000/updaterole/${id}`, user).then((res) => {
+    axios.put(`https://blood-donation-xi-two.vercel.app/updaterole/${id}`, user).then((res) => {
       if (res.data.modifiedCount > 0) {
         Swal.fire("Success!", "User Updated successfully", "success");
         refetch();
@@ -74,7 +74,7 @@ const AllUser = () => {
 
   const makeVolunteer = (id) => {
     const user = { role: "volunteer" };
-    axios.put(`http://localhost:5000/updaterole/${id}`, user).then((res) => {
+    axios.put(`https://blood-donation-xi-two.vercel.app/updaterole/${id}`, user).then((res) => {
       if (res.data.modifiedCount > 0) {
         Swal.fire("Success!", "User Updated successfully", "success");
         refetch();
@@ -126,14 +126,14 @@ const AllUser = () => {
                 <td>
                   {item.status === "active" ? (
                     <button
-                      className="btn"
+                      className="btn btn-primary btn-sm"
                       onClick={() => handleBlock(item._id)}
                     >
                       Block
                     </button>
                   ) : (
                     <button
-                      className="btn"
+                      className="btn btn-primary btn-sm"
                       onClick={() => handleUnBlock(item._id)}
                     >
                       Unblock
@@ -144,13 +144,13 @@ const AllUser = () => {
                   {item.role === "donor" ? (
                     <>
                       <button
-                        className="btn"
+                        className="btn btn-primary btn-sm"
                         onClick={() => makeAdmin(item._id)}
                       >
                         Make Admin
                       </button>
                       <button
-                        className="btn my-2"
+                        className="btn btn-primary btn-sm my-2"
                         onClick={() => makeVolunteer(item._id)}
                       >
                         Make Volunteer

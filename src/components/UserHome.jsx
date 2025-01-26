@@ -13,11 +13,21 @@ const UserHome = () => {
   const { user, userData } = useContext(AuthContext);
   const [donations, setDoations] = useState([]);
   const [filtreddonations, setfiltredDoations] = useState([]);
+  const { data: funds = [], refetch3 } = useQuery({
+    queryKey: ["funds"],
+    queryFn: async () => {
+      const res = await axios.get("https://blood-donation-xi-two.vercel.app/totalfunds");
+      return res.data;
+    },
+  });
+  const totalAmount = funds.reduce((sum, item) => sum + parseFloat(item.amount), 0);
+
+console.log(`Total Amount: ${totalAmount}`); 
 
   const { data: loadeddonations = [], refetch } = useQuery({
     queryKey: ['loadeddonations'],
     queryFn: async () => {
-        const res = await axios.get('http://localhost:5000/mydonation');
+        const res = await axios.get('https://blood-donation-xi-two.vercel.app/mydonation');
         return res.data;
     },
     
@@ -27,7 +37,7 @@ const UserHome = () => {
   const { data: donor = [], refetch2 } = useQuery({
     queryKey: ['donor'],
     queryFn: async () => {
-        const res = await axios.get('http://localhost:5000/all-user');
+        const res = await axios.get('https://blood-donation-xi-two.vercel.app/all-user');
         return res.data
     },
     
@@ -64,7 +74,7 @@ const UserHome = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/deleterequest/${_id}`, {
+        fetch(`https://blood-donation-xi-two.vercel.app/deleterequest/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -109,7 +119,7 @@ const UserHome = () => {
           <div className="card border-red-400 border-4 shadow-xl p-2 my-5 grid grid-cols-3">
             <div className="col-span-1 flex items-center justify-center text-5xl font-bold"><RiMoneyDollarCircleFill /></div>
             <div className="col-span-2 "><h2 className=" font-semibold ">Total Amount</h2>
-            <p className="text-3xl font-bold">300</p></div>
+            <p className="text-3xl font-bold">{totalAmount}</p></div>
           </div>
           
         </div>:<></>
@@ -176,10 +186,10 @@ const UserHome = () => {
 
       {
         userData.role=="donor"?<div className="my-5">
-        {userData.role=="donor"?<Link className="btn btn-primary" to="/dashboard/my-donation-requests">
+        {userData.role=="donor"?<Link className="btn btn-primary btn-sm" to="/dashboard/my-donation-requests">
         view my all
         request
-        </Link>:<Link className="btn btn-primary" to="/dashboard/all-blood-donation-request">
+        </Link>:<Link className="btn btn-primary btn-sm" to="/dashboard/all-blood-donation-request">
         view all blood
         request
         </Link>}

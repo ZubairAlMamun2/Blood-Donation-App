@@ -14,7 +14,7 @@ const MyDonationRequest = () => {
   const { data: donations = [], refetch } = useQuery({
     queryKey: ["donations"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/mydonation");
+      const res = await axios.get("https://blood-donation-xi-two.vercel.app/mydonation");
       return res.data;
     },
   });
@@ -37,7 +37,7 @@ const MyDonationRequest = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/deleterequest/${_id}`, {
+        fetch(`https://blood-donation-xi-two.vercel.app/deleterequest/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -59,7 +59,7 @@ const MyDonationRequest = () => {
   const makeDone = (id) => {
     const donationStatus = "done";
     axios
-      .put(`http://localhost:5000/changedonatestatus/${id}`, { donationStatus })
+      .put(`https://blood-donation-xi-two.vercel.app/changedonatestatus/${id}`, { donationStatus })
       .then((res) => {
         if (res.data.acknowledged) {
           Swal.fire({
@@ -76,7 +76,7 @@ const MyDonationRequest = () => {
   const makeCancel = (id) => {
     const donationStatus = "canceled";
     axios
-      .put(`http://localhost:5000/changedonatestatus/${id}`, { donationStatus })
+      .put(`https://blood-donation-xi-two.vercel.app/changedonatestatus/${id}`, { donationStatus })
       .then((res) => {
         if (res.data.acknowledged) {
           Swal.fire({
@@ -137,13 +137,13 @@ const MyDonationRequest = () => {
                   <>
                     <button
                       onClick={() => makeDone(item._id)}
-                      className="btn m-1"
+                      className="btn btn-primary btn-sm m-1"
                     >
                       Done
                     </button>
                     <button
                       onClick={() => makeCancel(item._id)}
-                      className="btn"
+                      className="btn btn-primary btn-sm"
                     >
                       Cancel
                     </button>
@@ -180,7 +180,7 @@ const MyDonationRequest = () => {
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
-          className="btn"
+          className="btn btn-primary btn-sm"
         >
           Previous
         </button>
@@ -190,7 +190,7 @@ const MyDonationRequest = () => {
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className="btn"
+          className="btn btn-primary btn-sm"
         >
           Next
         </button>

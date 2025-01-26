@@ -49,7 +49,7 @@ const UpdateDonation = () => {
     const { id } = useParams();
     console.log(id)
     useEffect(()=>{
-        axios.get(`http://localhost:5000/donation/${id}`)
+        axios.get(`https://blood-donation-xi-two.vercel.app/donation/${id}`)
         .then(res=>setDonation(res.data))
        },[])
 console.log(donation)
@@ -103,7 +103,7 @@ console.log(donation)
     
     
         axios
-        .put(`http://localhost:5000/updatedonation/${donation?._id}`, formData, {
+        .put(`https://blood-donation-xi-two.vercel.app/updatedonation/${donation?._id}`, formData, {
           withCredentials: true,
         })
         .then((res) => {
@@ -296,7 +296,7 @@ console.log(donation)
           
           
           <div className="form-control mt-6">
-            <button className="btn btn-neutral rounded-none">Update</button>
+            <button className="btn btn-primary btn-sm rounded-none">Update</button>
           </div>
         </form>
        

@@ -19,7 +19,7 @@ const ProfilePage = () => {
   useEffect(() => {
    
 
-        axios.get(`http://localhost:5000/user/${user?.email}`)
+        axios.get(`https://blood-donation-xi-two.vercel.app/user/${user?.email}`)
         .then(res=> setUserData(res.data))
        
       
@@ -31,7 +31,7 @@ const ProfilePage = () => {
   //console.log(user?.email)
   const handleSave = () => {
     axios
-      .put(`http://localhost:5000/updateprofile/${userData?._id}`, userData, {
+      .put(`https://blood-donation-xi-two.vercel.app/updateprofile/${userData?._id}`, userData, {
         withCredentials: true,
       })
       .then((res) => {

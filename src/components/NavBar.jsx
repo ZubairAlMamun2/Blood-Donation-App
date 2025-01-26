@@ -7,6 +7,7 @@ import { AuthContext } from "../provider/AuthProvider";
 const NavBar = () => {
   const { user,userData, Logout } = useContext(AuthContext);
 
+  console.log(user)
   
   return (
     <div className="navbar bg-slate-400 broder-none rounded-b-lg mb-5 mt-1 relative">
@@ -15,7 +16,7 @@ const NavBar = () => {
           <div
             tabIndex={0}
             role="button"
-            className="btn btn-ghost  lg:hidden"
+            className="btn btn-primary btn-sm  lg:hidden"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -49,13 +50,13 @@ const NavBar = () => {
           <div>
             <Link
               to="/auth/login"
-              className="btn btn-primary text-base-100 px-3 mr-2 py-1 "
+              className="btn btn-primary btn-sm text-base-100 px-3 mr-2 py-1 "
             >
               Login
             </Link>
             <Link
               to="/auth/register"
-              className="btn btn-primary text-base-100 px-3 py-1 "
+              className="btn btn-primary btn-sm text-base-100 px-3 py-1 "
             >
               Register
             </Link>
@@ -123,13 +124,13 @@ const NavBar = () => {
           <div>
             <Link
               to="/auth/login"
-              className="btn btn-primary text-base-100 px-3 mr-2 py-1 "
+              className="btn btn-primary btn-sm text-base-100 px-3 mr-2 py-1 "
             >
               Login
             </Link>
             <Link
               to="/auth/register"
-              className="btn btn-primary text-base-100 px-3 py-1 "
+              className="btn btn-primary btn-sm text-base-100 px-3 py-1 "
             >
               Register
             </Link>

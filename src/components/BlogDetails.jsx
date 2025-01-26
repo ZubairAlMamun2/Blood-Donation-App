@@ -14,12 +14,12 @@ const BlogDetails = () => {
     // /blog/:id
     useEffect(() => {
         axios
-          .get(`http://localhost:5000/blog/${id}`)
+          .get(`https://blood-donation-xi-two.vercel.app/blog/${id}`)
           .then((res) => setBlog(res.data));
       }, []);
   return (
     <div className='w-11/12 mx-auto'>
-        <Link to="/blogs"  className="text-lg my-3 btn font-semibold text-center">
+        <Link to="/blogs"  className="text-lg my-3 btn btn-primary btn-sm font-semibold text-center">
          Go Back 
         </Link>
         <h2 className='mb-5'>{blog?.title}</h2>

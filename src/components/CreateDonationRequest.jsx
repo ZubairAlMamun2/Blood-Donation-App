@@ -13,7 +13,7 @@ const CreateDonationRequest = () => {
   const [upazilareasorce, setUpazilareasorce] = useState([""]);
   const {user,userData} = useContext(AuthContext);
   const navigate = useNavigate();
-  console.log(userData.status)
+  console.log(userData)
  
 
     useEffect(() => {
@@ -45,6 +45,7 @@ const CreateDonationRequest = () => {
         setUpazilareasorce(filtreddata2);
       }, [district]);
       
+
 
       const handleSubmit = (e) => {
         e.preventDefault();
@@ -96,7 +97,7 @@ const CreateDonationRequest = () => {
     
         axios
         .post(
-          `http://localhost:5000/createnewdonationrequest`,
+          `https://blood-donation-xi-two.vercel.app/createnewdonationrequest`,
           formData,
           { withCredentials: true }
         )
@@ -291,7 +292,7 @@ const CreateDonationRequest = () => {
           
           
           <div className="form-control mt-6">
-            <button className="btn btn-neutral rounded-none">Request</button>
+            <button className="btn btn-primary btn-sm rounded-none">Request</button>
           </div>
         </form>
        
