@@ -48,34 +48,6 @@ The Blood Donation App is designed to create a user-friendly platform that facil
    npm install
    ```
 
-3. **Install Backend Dependencies:**
-   ```sh
-   cd ../server
-   npm install
-   ```
-
-4. **Set Up Environment Variables:**
-   Create a `.env` file in the `server` directory with the following variables:
-   ```env
-   MONGODB_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   FIREBASE_API_KEY=your_firebase_api_key
-   ```
-
-5. **Start the Application:**
-   - **Backend:** In the `server` directory:
-     ```sh
-     npm start
-     ```
-   - **Frontend:** In the `client` directory:
-     ```sh
-     npm start
-     ```
-
-6. **Access the Application:**
+3. **Access the Application:**
    Navigate to `http://localhost:3000` in your browser to use the app.
 
-## 📄 Additional Resources
-- **Project Documentation:** [Link to detailed docs]
-- **API Reference:** [Link to API docs]
-- **Contributing Guidelines:** [Link to contributing guide]
