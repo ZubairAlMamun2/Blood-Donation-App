@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import UseAxiosSecure from "./UseAxiosSecure";
 
 const AllUser = () => {
-    const axiossecure = UseAxiosSecure();
+  const axiossecure = UseAxiosSecure();
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
@@ -83,107 +83,111 @@ const AllUser = () => {
   };
 
   return (
-    <div className="w-48">
-      <div className="flex justify-start items-center gap-2 py-2">
-        <h1>User List: </h1>
+    <div className=" p-6 bg-white shadow-lg rounded-lg">
+      <div className="flex justify-between items-center py-4 mb-6 flex-wrap">
+        <h1 className="text-2xl font-semibold text-red-600">User List</h1>
         <select
           value={filter}
           onChange={handleFilterChange}
-          className="p-2 border rounded mb-4"
+          className="p-2 border rounded-md text-sm focus:ring-2 focus:ring-red-600 mt-4 sm:mt-0"
         >
           <option value="all">All</option>
           <option value="active">Active</option>
           <option value="blocked">Blocked</option>
         </select>
       </div>
-      <table className="table">
+
+      <table className="table-auto border-collapse mb-6">
         <thead>
-          <tr className="border">
-            <th>User Avatar</th>
-            <th>User Email</th>
-            <th>User Name</th>
-            <th>User Role</th>
-            <th>User Status</th>
-            <th>Manage Status</th>
-            <th>Manage Role</th>
+          <tr className="bg-red-600 text-white">
+            <th className="py-2 px-4 text-left">User Avatar</th>
+            <th className="py-2 px-4 text-left">User Email</th>
+            <th className="py-2 px-4 text-left">User Name</th>
+            <th className="py-2 px-4 text-left">User Role</th>
+            <th className="py-2 px-4 text-left">User Status</th>
+            <th className="py-2 px-4 text-left">Manage Status</th>
+            <th className="py-2 px-4 text-left">Manage Role</th>
           </tr>
         </thead>
         <tbody>
           {currentUsers.length > 0 ? (
             currentUsers.map((item) => (
-              <tr key={item._id} className="border">
-                <td>
+              <tr key={item._id} className="border-b">
+                <td className="py-2 px-4">
                   <img
-                    className="w-8 h-8 border rounded-full"
+                    className="w-10 h-10 border rounded-full"
                     src={item.photo}
-                    alt=""
+                    alt="User Avatar"
                   />
                 </td>
-                <td>{item.email}</td>
-                <td>{item.name}</td>
-                <td>{item.role}</td>
-                <td>{item.status}</td>
-                <td>
+                <td className="py-2 px-4">{item.email}</td>
+                <td className="py-2 px-4">{item.name}</td>
+                <td className="py-2 px-4">{item.role}</td>
+                <td className="py-2 px-4">{item.status}</td>
+                <td className="py-2 px-4">
                   {item.status === "active" ? (
                     <button
-                      className="btn btn-primary btn-sm"
+                      className="bg-red-600 text-white py-1 px-4 rounded-md hover:bg-red-700"
                       onClick={() => handleBlock(item._id)}
                     >
                       Block
                     </button>
                   ) : (
                     <button
-                      className="btn btn-primary btn-sm"
+                      className="bg-green-600 text-white py-1 px-4 rounded-md hover:bg-green-700"
                       onClick={() => handleUnBlock(item._id)}
                     >
                       Unblock
                     </button>
                   )}
                 </td>
-                <td>
+                <td className="py-2 px-4">
                   {item.role === "donor" ? (
                     <>
                       <button
-                        className="btn btn-primary btn-sm"
+                        className="bg-blue-600 text-white py-1 px-4 rounded-md hover:bg-blue-700"
                         onClick={() => makeAdmin(item._id)}
                       >
                         Make Admin
                       </button>
                       <button
-                        className="btn btn-primary btn-sm my-2"
+                        className="bg-orange-600 text-white py-1 px-4 rounded-md hover:bg-orange-700 my-2"
                         onClick={() => makeVolunteer(item._id)}
                       >
                         Make Volunteer
                       </button>
                     </>
-                  ) : <>{item.role === "volunteer" ? (
-                    <>
-                      <button
-                        className="btn btn-primary btn-sm"
-                        onClick={() => makeAdmin(item._id)}
-                      >
-                        Make Admin
-                      </button>
-                      
-                    </>
-                  ) : <></>}</>}
+                  ) : item.role === "volunteer" ? (
+                    <button
+                      className="bg-blue-600 text-white py-1 px-4 rounded-md hover:bg-blue-700"
+                      onClick={() => makeAdmin(item._id)}
+                    >
+                      Make Admin
+                    </button>
+                  ) : null}
                 </td>
               </tr>
             ))
           ) : (
-            <p>No users found for the selected filter.</p>
+            <tr>
+              <td colSpan="7" className="text-center py-4 text-red-500">
+                No users found for the selected filter.
+              </td>
+            </tr>
           )}
         </tbody>
       </table>
-      <div className="flex justify-center mt-4">
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-6">
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index}
             onClick={() => handlePageChange(index + 1)}
-            className={`px-4 py-2 mx-1 rounded ${
+            className={`px-4 py-2 mx-1 rounded-md ${
               currentPage === index + 1
-                ? "bg-blue-500 text-white"
-                : "bg-gray-300"
+                ? "bg-red-600 text-white"
+                : "bg-gray-300 text-black"
             }`}
           >
             {index + 1}
