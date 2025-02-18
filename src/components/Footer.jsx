@@ -1,46 +1,55 @@
 import React from "react";
-import { FaFacebookSquare } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
-import { FaTwitterSquare } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { Facebook, Twitter, Instagram, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
-    <div className="p-5 mt-5 mx-auto bg-base-200">
-      <footer>
-        <div className="grid grid-cols-2">
-            <div className="col-span-2 justify-center md:col-span-1">
-                
-                <div>
-                    <h2 className="text-xl font-semibold mt-2">Media Links</h2>
-                    <div className="flex gap-3 ml-2">
-                        <a href="https://www.facebook.com/"  target="blank"><FaFacebookSquare className="w-8 h-8" /></a>
-                        <a href="https://www.youtube.com/" target="blank"><FaYoutube className="w-8 h-8" /></a>
-                        <a href="https://www.twitter.com/" target="blank"><FaTwitterSquare  className="w-8 h-8"/></a>
-                        
-                        
-                    </div>
-                </div>
-            </div>
-          <form className="col-span-2 md:col-span-1"> 
-            <h6 className="footer-title">Subscribe Us</h6>
-            <fieldset className="form-control ">
-              <label className="label">
-                <span className="label-text">Enter your email address</span>
-              </label>
-              <div className="">
-                <input
-                  type="text"
-                  placeholder="username@site.com"
-                  className="input input-bordered "
-                />
-                <button className="btn btn-primary btn-sm join-item">Subscribe</button>
-              </div>
-            </fieldset>
-          </form>
+    <footer className="bg-red-600 text-white py-6">
+      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* About Section */}
+        <div>
+          <h2 className="text-xl font-bold mb-2">About RedHope</h2>
+          <p className="text-sm text-gray-200">
+            RedHope is a community-driven blood donation platform dedicated to saving lives by connecting donors with those in need.
+          </p>
         </div>
-      </footer>
-      <p className="text-center mt-2 font-semibold">Copyright © {new Date().getFullYear()} - All right reserved</p>
-    </div>
+
+        {/* Quick Links */}
+        <div>
+          <h2 className="text-xl font-bold mb-2">Quick Links</h2>
+          <ul className="space-y-1 text-gray-200">
+            <li><Link to="/" className="hover:text-gray-300">Home</Link></li>
+            <li><Link to="/donation" className="hover:text-gray-300">Donation Requests</Link></li>
+            <li><Link to="/blogs" className="hover:text-gray-300">Blogs</Link></li>
+            <li><Link to="/contact" className="hover:text-gray-300">Contact Us</Link></li>
+          </ul>
+        </div>
+
+        {/* Social Media & Contact */}
+        <div>
+          <h2 className="text-xl font-bold mb-2">Follow Us</h2>
+          <div className="flex space-x-4">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <Facebook className="w-6 h-6 hover:text-gray-300" />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+              <Twitter className="w-6 h-6 hover:text-gray-300" />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <Instagram className="w-6 h-6 hover:text-gray-300" />
+            </a>
+            <a href="mailto:contact@redhope.com">
+              <Mail className="w-6 h-6 hover:text-gray-300" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Copyright Section */}
+      <div className="mt-6 text-center text-gray-300 text-sm border-t border-gray-500 pt-4">
+        © {new Date().getFullYear()} RedHope. All Rights Reserved.
+      </div>
+    </footer>
   );
 };
 
