@@ -22,7 +22,7 @@ const UserHome = () => {
   });
   const totalAmount = funds.reduce((sum, item) => sum + parseFloat(item.amount), 0);
 
-console.log(`Total Amount: ${totalAmount}`); 
+//console.log(`Total Amount: ${totalAmount}`); 
 
   const { data: loadeddonations = [], refetch } = useQuery({
     queryKey: ['loadeddonations'],
@@ -42,12 +42,12 @@ console.log(`Total Amount: ${totalAmount}`);
     },
     
 })
- useEffect(() => {
+//  useEffect(() => {
         
-        const donors=donor.filter(item=>item.role=="donor")
-        setcountuser(donors)
+//         const donors=donor.filter(item=>item.role=="donor")
+//         setcountuser(donors)
       
-  }, [donor]);
+//   }, [donor]);
   //
   useEffect(() => {
     const filtreddata = loadeddonations.filter(
@@ -94,7 +94,7 @@ console.log(`Total Amount: ${totalAmount}`);
     });
   };
 
-  console.log(donations);
+  //console.log(donations);
 
   return (
     <div>

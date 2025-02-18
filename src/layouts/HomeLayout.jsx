@@ -9,7 +9,7 @@ import FeaturedSection from '../components/FeaturedSection'
 
 const HomeLayout = () => {
   return (
-    <div className='w-11/12 mx-auto'>
+    <div className=''>
         <NavBar />
         <main className='min-h-[60vh]'>
           <Banner />

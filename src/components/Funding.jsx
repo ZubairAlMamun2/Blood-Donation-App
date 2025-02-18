@@ -12,7 +12,7 @@ const Funding = () => {
           return res.data;
         },
       });
-      console.log(funds)
+      //console.log(funds)
   return (
     <div className='w-11/12 mx-auto'>
         <header>

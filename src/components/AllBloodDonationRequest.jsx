@@ -122,7 +122,7 @@ const AllBloodDonationRequest = () => {
     };
   
     return (
-      <div className="w-48">
+      <div className="">
         <div>
           <h1>Donation Requests</h1>
   

@@ -156,7 +156,17 @@ const AllUser = () => {
                         Make Volunteer
                       </button>
                     </>
-                  ) : null}
+                  ) : <>{item.role === "volunteer" ? (
+                    <>
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => makeAdmin(item._id)}
+                      >
+                        Make Admin
+                      </button>
+                      
+                    </>
+                  ) : <></>}</>}
                 </td>
               </tr>
             ))
