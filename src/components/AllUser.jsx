@@ -83,7 +83,7 @@ const AllUser = () => {
   };
 
   return (
-    <div className=" p-6 bg-white shadow-lg rounded-lg">
+    <div className=" p-6 bg-white shadow-lg rounded-lg min-h-screen">
       <div className="flex justify-between items-center py-4 mb-6 flex-wrap">
         <h1 className="text-2xl font-semibold text-red-600">User List</h1>
         <select
@@ -145,13 +145,13 @@ const AllUser = () => {
                   {item.role === "donor" ? (
                     <>
                       <button
-                        className="bg-blue-600 text-white py-1 px-4 rounded-md hover:bg-blue-700"
+                        className="bg-green-600 text-white py-1 px-4 rounded-md hover:bg-green-700"
                         onClick={() => makeAdmin(item._id)}
                       >
                         Make Admin
                       </button>
                       <button
-                        className="bg-orange-600 text-white py-1 px-4 rounded-md hover:bg-orange-700 my-2"
+                        className="bg-green-600 mt-1 text-white py-1 px-1 rounded-md hover:bg-green-700"
                         onClick={() => makeVolunteer(item._id)}
                       >
                         Make Volunteer
@@ -159,7 +159,7 @@ const AllUser = () => {
                     </>
                   ) : item.role === "volunteer" ? (
                     <button
-                      className="bg-blue-600 text-white py-1 px-4 rounded-md hover:bg-blue-700"
+                      className="bg-green-600 text-white py-1 px-4 rounded-md hover:bg-green-700"
                       onClick={() => makeAdmin(item._id)}
                     >
                       Make Admin

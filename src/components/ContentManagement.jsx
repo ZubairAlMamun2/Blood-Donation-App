@@ -1,26 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
+
 const BlogPost = ({ htmlString }) => {
-  return (
-    <div>
-      <div dangerouslySetInnerHTML={{ __html: htmlString }} />
-    </div>
-  );
+  return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
 };
 
 const ContentManagement = () => {
-
-  //   const [blogs, setBlogs] = useState([]);
   const { userData } = useContext(AuthContext);
-  //   useEffect(() => {
-  //     axios
-  //       .get("http://localhost:5000/all-blog")
-  //       .then((res) => setBlogs(res.data));
-  //   }, [userData,id]);
   const { data: blogs = [], refetch } = useQuery({
     queryKey: ["blogs"],
     queryFn: async () => {
@@ -28,183 +18,113 @@ const ContentManagement = () => {
       return res.data;
     },
   });
-  console.log(blogs);
 
-  const [filter, setFilter] = useState("all"); // State to store the selected filter
+  const [filter, setFilter] = useState("all");
 
-  // Handle dropdown change
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
 
-  // Filtered blogs based on the selected filter
-  const filteredBlogs = blogs.filter((blog) => {
-    if (filter === "all") return true; // Show all blogs
-    return blog.status === filter; // Show only blogs matching the selected status
-  });
+  const filteredBlogs = blogs.filter((blog) =>
+    filter === "all" ? true : blog.status === filter
+  );
 
-  const makepublish = (id) => {
-    const status = "published";
-    const blog = {
-      status,
-    };
+  const updateBlogStatus = (id, status) => {
     axios
-      .put(`http://localhost:5000/updateblogstatus/${id}`, blog, {
-        withCredentials: true,
-      })
+      .put(
+        `http://localhost:5000/updateblogstatus/${id}`,
+        { status },
+        { withCredentials: true }
+      )
       .then((res) => {
-        // console.log(res.data);
         if (res.data.modifiedCount > 0) {
-          Swal.fire({
-            title: "Success!",
-            text: "Blog Published succesfully",
-            icon: "success",
-            confirmButtonText: "Cool",
-          });
+          Swal.fire("Success!", `Blog ${status} successfully`, "success");
           refetch();
-          //   navigate(location?.state ? location.state : "/assignments");
-        }
-      });
-  };
-  const makeUnpublish = (id) => {
-    const status = "draft";
-    const blog = {
-      status,
-    };
-    axios
-      .put(`http://localhost:5000/updateblogstatus/${id}`, blog, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        // console.log(res.data);
-        if (res.data.modifiedCount > 0) {
-          Swal.fire({
-            title: "Success!",
-            text: "Blog unpublished succesfully",
-            icon: "success",
-            confirmButtonText: "Cool",
-          });
-          refetch();
-          //   navigate(location?.state ? location.state : "/assignments");
         }
       });
   };
 
-  const handledelete = (_id) => {
+  const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/deleteblog/${_id}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            if (res.deletedCount > 0) {
-              Swal.fire({
-                title: "Success!",
-                text: "Blog Deleted succesfully",
-                icon: "success",
-                confirmButtonText: "Cool",
-              });
-              // const filtereddata = donation.filter((user) => user._id !== _id);
-              // setDoation(filtereddata);
-              refetch();
-            }
-          });
+        axios.delete(`http://localhost:5000/deleteblog/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            Swal.fire("Deleted!", "Blog has been deleted.", "success");
+            refetch();
+          }
+        });
       }
     });
   };
 
   return (
-    <div>
-      <div className="md:flex justify-between py-2">
-        <div  className=" flex justify-start items-center gap-2 py-2">
-          <h1>Blog List :</h1>
-
-          {/* Dropdown for filtering */}
+    <div className="p-6 bg-white shadow-lg rounded-lg min-h-screen">
+      <div className="flex justify-between items-center py-4 mb-6 flex-wrap">
+        <h1 className="text-2xl font-semibold text-red-600">Blog Management</h1>
+        <div className="flex gap-2">
           <select
             value={filter}
             onChange={handleFilterChange}
-            className="p-2 border rounded"
+            className="p-2 border rounded-md text-sm focus:ring-2 focus:ring-red-600"
           >
             <option value="all">All</option>
             <option value="draft">Draft</option>
             <option value="published">Published</option>
           </select>
-        </div>
-        <div className=" py-2">
-          <Link className="btn btn-primary btn-sm" to="/dashboard/content-management/add-blog">
-            Add blog
+          <Link className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700" to="/dashboard/content-management/add-blog">
+            Add Blog
           </Link>
         </div>
-        {/* Display filtered blogs */}
-        
       </div>
-      <div className="grid gap-2 grid-cols-6">
-          {filteredBlogs.length > 0 ? (
-            filteredBlogs.map((item) => (
-              <div
-                key={item._id}
-                className="card  shadow-xl  col-span-6 md:col-span-3 lg:col-span-2"
-              >
-                <div className="card-body">
-                  <h2 className="card-title">{item.title}</h2>
-                  <div>
-                    <BlogPost htmlString={item.content.slice(0, 100)} />
-                    ...
-                  </div>
-                  <h2>Status:{item.status}</h2>
-                  {userData.role == "admin" ? (
-                    <span className="flex gap-1 justify-between">
-                      <div className=" ">
-                        {item.status == "draft" ? (
-                          <button
-                            onClick={() => {
-                              makepublish(item._id);
-                            }}
-                            className="btn btn-sm btn-primary"
-                          >
-                            Publish
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              makeUnpublish(item._id);
-                            }}
-                            className="btn btn-sm btn-primary"
-                          >
-                            Unpublish
-                          </button>
-                        )}
-                      </div>
-                      <div className=" ">
-                        <button
-                          onClick={() => {
-                            handledelete(item._id);
-                          }}
-                          className="btn btn-sm btn-primary"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </span>
-                  ) : (
-                    <></>
-                  )}
-                </div>
+
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {filteredBlogs.length > 0 ? (
+          filteredBlogs.map((item) => (
+            <div key={item._id} className="bg-white p-4 shadow-md rounded-lg border">
+              <h2 className="text-lg font-semibold text-red-600 min-h-16">{item.title}</h2>
+              <div className="text-sm min-h-42 text-gray-600 my-2">
+                <BlogPost htmlString={item.content.slice(0, 250)} />...
               </div>
-            ))
-          ) : (
-            <p>No blogs found for the selected filter.</p>
-          )}
-        </div>
+              <p className="text-gray-700 font-medium">Status: {item.status}</p>
+              {userData.role === "admin" && (
+                <div className="flex justify-between mt-3">
+                  {item.status === "draft" ? (
+                    <button
+                      className="bg-green-600 text-white py-1 px-3 rounded-md hover:bg-green-700"
+                      onClick={() => updateBlogStatus(item._id, "published")}
+                    >
+                      Publish
+                    </button>
+                  ) : (
+                    <button
+                      className="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700"
+                      onClick={() => updateBlogStatus(item._id, "draft")}
+                    >
+                      Unpublish
+                    </button>
+                  )}
+                  <button
+                    className="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700"
+                    onClick={() => handleDelete(item._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-red-500 col-span-full">No blogs found for the selected filter.</p>
+        )}
+      </div>
     </div>
   );
 };
