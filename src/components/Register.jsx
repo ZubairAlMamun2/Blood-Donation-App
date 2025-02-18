@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { getAuth } from "firebase/auth";
 import app from "../firebase/firebase.config";
 import Swal from "sweetalert2";
@@ -16,7 +15,7 @@ const Register = () => {
   const [upazilareasorce2, setUpazilareasorce2] = useState([""]);
   const [upazilareasorce, setUpazilareasorce] = useState([""]);
   const auth = getAuth(app);
-  const { createNewUser, setUser,Logout, UpdateUserProfile } = useContext(AuthContext);
+  const { createNewUser, setUser, Logout, UpdateUserProfile } = useContext(AuthContext);
   const [error, setError] = useState("");
   const [passtype, setPasstype] = useState(false);
   const [passtypec, setPasstypec] = useState(false);
@@ -26,35 +25,23 @@ const Register = () => {
   useEffect(() => {
     fetch("/district.json")
       .then((response) => response.json())
-      .then((data) => {
-        //console.log(data[0])
-        setDistrictreasorce(data);
-      });
+      .then((data) => setDistrictreasorce(data));
   }, []);
+  
   useEffect(() => {
     fetch("/upazila.json")
       .then((response) => response.json())
-      .then((data) => {
-        //console.log(data[0])
-
-        setUpazilareasorce2(data);
-      });
+      .then((data) => setUpazilareasorce2(data));
   }, []);
-
+  
   useEffect(() => {
-    const filtreddata1 = districtreasorce.filter(
-      (data) => data.name == district
-    );
-    const filtreddata2 = upazilareasorce2.filter(
-      (data) => data.district_id == filtreddata1[0]?.id
-    );
-    // console.log(filtreddata1[0].id)
+    const filtreddata1 = districtreasorce.filter((data) => data.name === district);
+    const filtreddata2 = upazilareasorce2.filter((data) => data.district_id === filtreddata1[0]?.id);
     setUpazilareasorce(filtreddata2);
   }, [district]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const form = new FormData(e.target);
     const email = form.get("email");
     const name = form.get("name");
@@ -64,141 +51,94 @@ const Register = () => {
     const selectedupazila = upazila;
     const status = "active";
     const role = "donor";
-
-    const formData = {
-      email,
-      name,
-      bloodGroup,
-      selecteddistrict,
-      selectedupazila,
-      status,
-      role,
-      photo,
-    };
-    console.log(formData)
+    const formData = { email, name, bloodGroup, selecteddistrict, selectedupazila, status, role, photo };
 
     const password = form.get("password");
     const comfirmpassword = form.get("Confirmpassword");
+
     if (password !== comfirmpassword) {
-      setError("Must be same Password");
+      setError("Passwords must match");
       return;
     }
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
-
     if (!passwordRegex.test(password)) {
-      setError(
-        "Must have an Uppercase letter,a Lowercase letter and must be at least 6 character"
-      );
+      setError("Password must have at least one uppercase letter, one lowercase letter, and be at least 6 characters long.");
       return;
     }
 
     createNewUser(email, password)
       .then((result) => {
-        // setUser(result.user);
-        // console.log(result.user)
         setError("");
-
-        UpdateUserProfile({ displayName: name, photoURL: photo }).then(
-          (res) => {
-            
-            axios
-              .post(
-                `http://localhost:5000/addnewuser`,
-                formData,
-                { withCredentials: true }
-              )
-
-              .then((res) => {
-                // console.log(res.data);
-                if (res.data.acknowledged) {
-                  Swal.fire({
-                    title: "Success!",
-                    text: "User Registred succesfully",
-                    icon: "success",
-                    confirmButtonText: "Cool",
-                  });
-                  navigate("/auth/login");
-                  Logout();
-                }
-              });
-            // Swal.fire({
-            //           title: 'Success!',
-            //           text: 'User Loged in succesfully',
-            //           icon: 'success',
-            //           confirmButtonText: 'Cool'
-            //         })
-            // navigate(location?.state ? location.state : "/");
-          }
-        );
+        UpdateUserProfile({ displayName: name, photoURL: photo }).then(() => {
+          axios.post("http://localhost:5000/addnewuser", formData, { withCredentials: true })
+            .then((res) => {
+              if (res.data.acknowledged) {
+                Swal.fire({
+                  title: "Success!",
+                  text: "User registered successfully",
+                  icon: "success",
+                  confirmButtonText: "Cool"
+                });
+                navigate("/auth/login");
+                Logout();
+              }
+            });
+        });
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // console.log(errorCode,errorMessage)
-        setError(errorMessage);
+        setError(error.message);
         e.target.reset();
       });
-
-    // console.log({ name, photo, email, password });
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
-      <div className="card rounded-none bg-base-100 w-full max-w-lg shrink-0 p-10">
-        <h2 className="text-2xl font-semibold text-center">
-          Register your account
-        </h2>
-        <form onSubmit={handleSubmit} className="card-body p-0">
+    <div className="min-h-screen flex justify-center items-center bg-gray-100 p-4">
+      <div className="bg-white shadow-lg rounded-lg p-4 max-w-md w-full">
+        <h2 className="text-2xl font-bold text-center text-red-600 mb-4">Register your account</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="form-control">
-            <label className="label">
-              <span className="label-text">Email</span>
-            </label>
+            <label className="label font-semibold">Email</label>
             <input
               name="email"
               type="email"
-              placeholder="email"
-              className="input input-bordered"
-              required
-            />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Your Name</span>
-            </label>
-            <input
-              name="name"
-              type="text"
-              placeholder="Your Name"
-              className="input input-bordered"
-              required
-            />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Avater</span>
-            </label>
-            <input
-              name="photo"
-              type="text"
-              placeholder="Photo URL"
-              className="input input-bordered"
+              placeholder="Enter your email"
+              className="input input-bordered w-full p-2 border rounded-md focus:ring-2 focus:ring-red-600"
               required
             />
           </div>
 
           <div className="form-control">
-            <label className="label">
-              <span className="label-text">Blood group</span>
-            </label>
+            <label className="label font-semibold">Your Name</label>
+            <input
+              name="name"
+              type="text"
+              placeholder="Enter your name"
+              className="input input-bordered w-full p-2 border rounded-md focus:ring-2 focus:ring-red-600"
+              required
+            />
+          </div>
+
+          <div className="form-control">
+            <label className="label font-semibold">Avatar</label>
+            <input
+              name="photo"
+              type="text"
+              placeholder="Enter photo URL"
+              className="input input-bordered w-full p-2 border rounded-md focus:ring-2 focus:ring-red-600"
+              required
+            />
+          </div>
+
+          <div className="form-control">
+            <label className="label font-semibold">Blood Group</label>
             <select
               onChange={(e) => setType(e.target.value)}
-              required
               value={type}
+              className="input input-bordered w-full p-2 border rounded-md focus:ring-2 focus:ring-red-600"
+              required
             >
-              <option disabled value="">
-                Select Blood group
-              </option>
+              <option disabled value="">Select Blood group</option>
               <option value="A+">A+</option>
               <option value="A-">A-</option>
               <option value="B+">B+</option>
@@ -209,101 +149,81 @@ const Register = () => {
               <option value="O-">O-</option>
             </select>
           </div>
+
           <div className="form-control">
-            <label className="label">
-              <span className="label-text">District</span>
-            </label>
+            <label className="label font-semibold">District</label>
             <select
               onChange={(e) => setDistrict(e.target.value)}
-              required
               value={district}
+              className="input input-bordered w-full p-2 border rounded-md focus:ring-2 focus:ring-red-600"
+              required
             >
-              <option disabled value="">
-                Select District
-              </option>
-              {districtreasorce.map((option) => {
-                return (
-                  <option key={option.id} value={option.name}>
-                    {option.name}
-                  </option>
-                );
-              })}
+              <option disabled value="">Select District</option>
+              {districtreasorce.map((option) => (
+                <option key={option.id} value={option.name}>{option.name}</option>
+              ))}
             </select>
           </div>
 
           <div className="form-control">
-            <label className="label">
-              <span className="label-text">Upazila</span>
-            </label>
+            <label className="label font-semibold">Upazila</label>
             <select
               onChange={(e) => setUpazila(e.target.value)}
-              required
               value={upazila}
+              className="input input-bordered w-full p-2 border rounded-md focus:ring-2 focus:ring-red-600"
+              required
             >
-              <option disabled value="">
-                Select Upazila
-              </option>
-              {upazilareasorce.map((option) => {
-                return (
-                  <option key={option.id} value={option.name}>
-                    {option.name}
-                  </option>
-                );
-              })}
+              <option disabled value="">Select Upazila</option>
+              {upazilareasorce.map((option) => (
+                <option key={option.id} value={option.name}>{option.name}</option>
+              ))}
             </select>
           </div>
 
           <div className="form-control relative">
-            <label className="label">
-              <span className="label-text">Password</span>
-            </label>
-
+            <label className="label font-semibold">Password</label>
             <input
               name="password"
               type={passtype ? "text" : "password"}
-              placeholder="password"
-              className="input input-bordered"
+              placeholder="Enter your password"
+              className="input input-bordered w-full p-2 border rounded-md focus:ring-2 focus:ring-red-600"
               required
             />
             <span
               onClick={() => setPasstype(!passtype)}
-              className="absolute right-5 top-14 "
+              className="absolute right-4 top-12 text-gray-500 cursor-pointer"
             >
               {passtype ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
-          <div className="form-control relative">
-            <label className="label">
-              <span className="label-text">Confirm Password</span>
-            </label>
 
+          <div className="form-control relative">
+            <label className="label font-semibold">Confirm Password</label>
             <input
               name="Confirmpassword"
               type={passtypec ? "text" : "password"}
-              placeholder="Confirm Password"
-              className="input input-bordered"
+              placeholder="Confirm your password"
+              className="input input-bordered w-full p-2 border rounded-md focus:ring-2 focus:ring-red-600"
               required
             />
             <span
               onClick={() => setPasstypec(!passtypec)}
-              className="absolute right-5 top-14 "
+              className="absolute right-4 top-12 text-gray-500 cursor-pointer"
             >
               {passtypec ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
-          <h2 className="text-red-500">{error && error}</h2>
-          <div className="form-control mt-6">
-            <button className="btn btn-primary btn-sm rounded-none">Register</button>
-          </div>
-        </form>
-        <p className="text-center text-sm">
-          Already Have An Account ?{" "}
-          <Link className="text-red-500" to="/auth/login">
-            Login
-          </Link>
-        </p>
 
-        <div className="pt-2"></div>
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+
+          <button type="submit" className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700 transition">
+            Register
+          </button>
+        </form>
+
+        <p className="text-center text-sm mt-4">
+          Already have an account? <Link className="text-red-500 font-semibold hover:underline" to="/auth/login">Login</Link>
+        </p>
       </div>
     </div>
   );
