@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../provider/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -7,298 +7,171 @@ import Swal from 'sweetalert2';
 const CreateDonationRequest = () => {
   const [type, setType] = useState("");
   const [district, setDistrict] = useState("");
-  const [districtreasorce, setDistrictreasorce] = useState([""]);
+  const [districtResource, setDistrictResource] = useState([]);
   const [upazila, setUpazila] = useState("");
-  const [upazilareasorce2, setUpazilareasorce2] = useState([""]);
-  const [upazilareasorce, setUpazilareasorce] = useState([""]);
-  const {user,userData} = useContext(AuthContext);
+  const [upazilaResource, setUpazilaResource] = useState([]);
+  const { user, userData } = useContext(AuthContext);
   const navigate = useNavigate();
-  console.log(userData)
- 
 
-    useEffect(() => {
-        fetch("/district.json")
-          .then((response) => response.json())
-          .then((data) => {
-            //console.log(data[0])
-            setDistrictreasorce(data);
-          });
-      }, []);
-      useEffect(() => {
-        fetch("/upazila.json")
-          .then((response) => response.json())
-          .then((data) => {
-            //console.log(data[0])
-    
-            setUpazilareasorce2(data);
-          });
-      }, []);
-    
-      useEffect(() => {
-        const filtreddata1 = districtreasorce.filter(
-          (data) => data.name == district
-        );
-        const filtreddata2 = upazilareasorce2.filter(
-          (data) => data.district_id == filtreddata1[0]?.id
-        );
-        // console.log(filtreddata1[0].id)
-        setUpazilareasorce(filtreddata2);
-      }, [district]);
-      
+  useEffect(() => {
+    fetch("/district.json")
+      .then((response) => response.json())
+      .then((data) => setDistrictResource(data));
+  }, []);
 
+  useEffect(() => {
+    fetch("/upazila.json")
+      .then((response) => response.json())
+      .then((data) => setUpazilaResource(data));
+  }, []);
 
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        if(userData.status=="blocked"){
-            Swal.fire({
-                title: "Sorry!",
-                text: "you are not a active User",
-                icon: "error",
-                confirmButtonText: "error",
-              });
-            //  navigate("/dashboard");
-              return;
+  useEffect(() => {
+    const filteredDistrict = districtResource.find((d) => d.name === district);
+    if (filteredDistrict) {
+      setUpazilaResource(
+        upazilaResource.filter((u) => u.district_id === filteredDistrict.id)
+      );
+    }
+  }, [district, districtResource]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (userData.status === "blocked") {
+      Swal.fire("Sorry!", "You are not an active user", "error");
+      return;
+    }
+
+    const formData = new FormData(e.target);
+    const donationRequest = {
+      requesterEmail: formData.get("requester-email"),
+      requesterName: formData.get("requester-name"),
+      recipientName: formData.get("recipient-name"),
+      hospitalName: formData.get("hospital-name"),
+      address: formData.get("address"),
+      date: formData.get("date"),
+      time: formData.get("time"),
+      requestMessage: formData.get("request-message"),
+      bloodGroup: type,
+      selectedDistrict: district,
+      selectedUpazila: upazila,
+      donationStatus: "pending",
+      currentDate: new Date().toISOString(),
+    };
+
+    axios
+      .post("http://localhost:5000/createnewdonationrequest", donationRequest, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.data.acknowledged) {
+          Swal.fire("Success!", "Request created successfully", "success");
+          navigate("/dashboard/home");
         }
-    
-        const form = new FormData(e.target);
-        const requesterEmail = form.get("requester-email");
-        const requesterName = form.get("requester-name");
-        const recipientName = form.get("recipient-name");
-        const hospitalName = form.get("hospital-name");
-        const address = form.get("address");
-        const date = form.get("date");
-        const time = form.get("time");
-        const requestMessage = form.get("request-message");
-        const currentDate=Date()
-        const bloodGroup = type;
-        const selecteddistrict = district;
-        const selectedupazila = upazila;
-        const donationStatus = "pending";
-        
-        
-        const formData = {
-            requesterEmail,
-            requesterName,
-            recipientName,
-            hospitalName,
-            address,
-            date,
-            time,
-            requestMessage,
-          bloodGroup,
-          selecteddistrict,
-          selectedupazila,
-          donationStatus,
-          currentDate
-          
-        };
-        console.log(formData)
-    
-    
-        axios
-        .post(
-          `http://localhost:5000/createnewdonationrequest`,
-          formData,
-          { withCredentials: true }
-        )
-
-        .then((res) => {
-          // console.log(res.data);
-          if (res.data.acknowledged) {
-            Swal.fire({
-              title: "Success!",
-              text: "Request created succesfully",
-              icon: "success",
-              confirmButtonText: "Cool",
-            });
-            navigate("/dashboard/my-donation-requests");
-           
-          }
-        });
-    
-       
-      };
+      });
+  };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
-      <div className="card rounded-none bg-base-100 w-full max-w-lg shrink-0 p-10">
-        <h2 className="text-2xl font-semibold text-center">
-          Create donation request
+    <div className="min-h-screen flex justify-center items-center  p-6 bg-white shadow-lg rounded-lg">
+      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
+        <h2 className="text-2xl font-semibold text-center text-red-600 mb-6">
+          Create Donation Request
         </h2>
-        <form onSubmit={handleSubmit} className="card-body p-0">
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Requester Name</span>
-            </label>
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4">
             <input
               name="requester-name"
               type="text"
-              value={userData&&userData.name}
-              placeholder="requester name"
-              className="input input-bordered"
-              required
+              value={userData?.name || ""}
+              className="input input-bordered w-full"
+              readOnly
             />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Requester Email</span>
-            </label>
             <input
               name="requester-email"
               type="email"
-              value={user&&user.email}
-              placeholder="requester email"
-              className="input input-bordered"
-              required
+              value={user?.email || ""}
+              className="input input-bordered w-full"
+              readOnly
             />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Recipient Name</span>
-            </label>
             <input
               name="recipient-name"
               type="text"
-              placeholder="recipient name"
-              className="input input-bordered"
+              placeholder="Recipient Name"
+              className="input input-bordered w-full"
               required
             />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Receipt District</span>
-            </label>
             <select
               onChange={(e) => setDistrict(e.target.value)}
-              required
               value={district}
+              className="select select-bordered w-full"
+              required
             >
-              <option disabled value="">
-                Select District
-              </option>
-              {districtreasorce.map((option) => {
-                return (
-                  <option key={option.id} value={option.name}>
-                    {option.name}
-                  </option>
-                );
-              })}
+              <option value="">Select District</option>
+              {districtResource.map((d) => (
+                <option key={d.id} value={d.name}>{d.name}</option>
+              ))}
             </select>
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Receipt Upazila</span>
-            </label>
             <select
               onChange={(e) => setUpazila(e.target.value)}
-              required
               value={upazila}
+              className="select select-bordered w-full"
+              required
             >
-              <option disabled value="">
-                Select Upazila
-              </option>
-              {upazilareasorce.map((option) => {
-                return (
-                  <option key={option.id} value={option.name}>
-                    {option.name}
-                  </option>
-                );
-              })}
+              <option value="">Select Upazila</option>
+              {upazilaResource.map((u) => (
+                <option key={u.id} value={u.name}>{u.name}</option>
+              ))}
             </select>
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Hospital Name</span>
-            </label>
             <input
               name="hospital-name"
               type="text"
-              placeholder="hospital name"
-              className="input input-bordered"
+              placeholder="Hospital Name"
+              className="input input-bordered w-full"
               required
             />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Address</span>
-            </label>
             <input
               name="address"
               type="text"
-              placeholder="full address line"
-              className="input input-bordered"
+              placeholder="Address"
+              className="input input-bordered w-full"
               required
             />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Blood group</span>
-            </label>
             <select
               onChange={(e) => setType(e.target.value)}
-              required
               value={type}
+              className="select select-bordered w-full"
+              required
             >
-              <option disabled value="">
-                Select Blood group
-              </option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
+              <option value="">Select Blood Group</option>
+              {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((bg) => (
+                <option key={bg} value={bg}>{bg}</option>
+              ))}
             </select>
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Donation Date</span>
-            </label>
             <input
               name="date"
               type="date"
-              placeholder="donation Date"
-              className="input input-bordered"
+              className="input input-bordered w-full"
               required
             />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Donation Time</span>
-            </label>
             <input
               name="time"
               type="time"
-              placeholder="donation Time"
-              className="input input-bordered"
+              className="input input-bordered w-full"
               required
             />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Request Message</span>
-            </label>
-            <textarea name="request-message" placeholder="request message"
-            type="text"
-              className="input input-bordered"
-              required></textarea>
-            
-          </div>
-
-
-          
-          
-          
-          <div className="form-control mt-6">
-            <button className="btn btn-primary btn-sm rounded-none">Request</button>
+            <textarea
+              name="request-message"
+              placeholder="Request Message"
+              className="textarea textarea-bordered w-full"
+              required
+            ></textarea>
+            <button className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700">
+              Submit Request
+            </button>
           </div>
         </form>
-       
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CreateDonationRequest
+export default CreateDonationRequest;
