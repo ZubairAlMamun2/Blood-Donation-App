@@ -9,7 +9,7 @@ const MyDonationRequest = () => {
   const { user } = useContext(AuthContext);
   const [donation, setDonation] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); // Number of items per page
+  const itemsPerPage = 5; // Number of items per page
 
   const { data: donations = [], refetch } = useQuery({
     queryKey: ["donations"],
@@ -32,59 +32,26 @@ const MyDonationRequest = () => {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/deleterequest/${_id}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            if (res.deletedCount > 0) {
-              Swal.fire({
-                title: "Success!",
-                text: "Donation Request Deleted successfully",
-                icon: "success",
-                confirmButtonText: "Cool",
-              });
-              refetch();
-            }
-          });
+        axios.delete(`http://localhost:5000/deleterequest/${_id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            Swal.fire("Deleted!", "Your request has been deleted.", "success");
+            refetch();
+          }
+        });
       }
     });
   };
 
-  const makeDone = (id) => {
-    const donationStatus = "done";
-    axios
-      .put(`http://localhost:5000/changedonatestatus/${id}`, { donationStatus })
+  const updateStatus = (id, status) => {
+    axios.put(`http://localhost:5000/changedonatestatus/${id}`, { donationStatus: status })
       .then((res) => {
         if (res.data.acknowledged) {
-          Swal.fire({
-            title: "Success!",
-            text: "Status Updated successfully",
-            icon: "success",
-            confirmButtonText: "Cool",
-          });
-          refetch();
-        }
-      });
-  };
-
-  const makeCancel = (id) => {
-    const donationStatus = "canceled";
-    axios
-      .put(`http://localhost:5000/changedonatestatus/${id}`, { donationStatus })
-      .then((res) => {
-        if (res.data.acknowledged) {
-          Swal.fire({
-            title: "Success!",
-            text: "Status Updated successfully",
-            icon: "success",
-            confirmButtonText: "Cool",
-          });
+          Swal.fire("Updated!", "Donation status has been updated.", "success");
           refetch();
         }
       });
@@ -96,104 +63,114 @@ const MyDonationRequest = () => {
   const currentDonations = donation.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(donation.length / itemsPerPage);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
   return (
-    <div className="w-48">
-      <table className="table">
-        {/* head */}
-        <thead>
-          <tr className="border">
-            <th>Recipient Name</th>
-            <th>Recipient Location</th>
-            <th>Donation Date</th>
-            <th>Donation Time</th>
-            <th>Blood Group</th>
-            <th>Donation Status</th>
-            <th>Donor Information</th>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentDonations.map((item) => (
-            <tr key={item._id} className="border">
-              <td>{item.recipientName}</td>
-              <td>
-                {item.selecteddistrict}, {item.selectedupazila}
-              </td>
-              <td>{item.date}</td>
-              <td>{item.time}</td>
-              <td>{item.bloodGroup}</td>
-              <td>
-                {item.donationStatus === "inprogress" ? (
-                  <>
-                    <button
-                      onClick={() => makeDone(item._id)}
-                      className="btn btn-primary btn-sm m-1"
-                    >
-                      Done
-                    </button>
-                    <button
-                      onClick={() => makeCancel(item._id)}
-                      className="btn btn-primary btn-sm"
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <>{item.donationStatus}</>
-                )}
-              </td>
-              <td>
-                {item.donationStatus === "inprogress" ? (
-                  <p>
-                    {item.donorName}, {item.donorEmail}
-                  </p>
-                ) : null}
-              </td>
-              <td>
-                <Link to={`/dashboard/update-donation-request/${item._id}`}>
-                  Edit
-                </Link>
-              </td>
-              <td>
-                <button onClick={() => handleDelete(item._id)}>Delete</button>
-              </td>
-              <td>
-                <Link to={`/details-donation-request/${item._id}`}>View</Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="min-h-screen bg-gray-100  flex justify-center">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full ">
+        <h2 className="text-2xl font-bold text-center text-red-600 mb-4">
+          My Donation Requests
+        </h2>
 
-      {/* Pagination Controls */}
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={handlePrevPage}
-          disabled={currentPage === 1}
-          className="btn btn-primary btn-sm"
-        >
-          Previous
-        </button>
-        <span className="px-4">
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className="btn btn-primary btn-sm"
-        >
-          Next
-        </button>
+        <div className="overflow-x-auto">
+          <table className="w-full border border-gray-300">
+            <thead className="bg-red-600 text-white">
+              <tr>
+                <th className="p-2">Recipient</th>
+                <th className="p-2">Location</th>
+                <th className="p-2">Date</th>
+                <th className="p-2">Time</th>
+                <th className="p-2">Blood Group</th>
+                <th className="p-2">Status</th>
+                <th className="p-2">Donor</th>
+                <th className="p-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentDonations.map((item) => (
+                <tr key={item._id} className="border text-center">
+                  <td className="p-2">{item.recipientName}</td>
+                  <td className="p-2">
+                    {item.selecteddistrict}, {item.selectedupazila}
+                  </td>
+                  <td className="p-2">{item.date}</td>
+                  <td className="p-2">{item.time}</td>
+                  <td className="p-2 font-bold">{item.bloodGroup}</td>
+                  <td className="p-2">
+                    {item.donationStatus === "inprogress" ? (
+                      <div className="flex justify-center space-x-2">
+                        <button
+                          onClick={() => updateStatus(item._id, "done")}
+                          className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition"
+                        >
+                          Done
+                        </button>
+                        <button
+                          onClick={() => updateStatus(item._id, "canceled")}
+                          className="bg-yellow-600 text-white px-3 py-1 rounded-md hover:bg-yellow-700 transition"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <span className={`px-2 py-1 rounded-md text-black ${
+                        item.donationStatus
+                      }`}>
+                        {item.donationStatus}
+                      </span>
+                    )}
+                  </td>
+                  <td className="p-2">
+                    {item.donationStatus === "inprogress" && (
+                      <p>{item.donorName}, {item.donorEmail}</p>
+                    )}
+                  </td>
+                  <td className="p-2 flex justify-center space-x-2">
+                    <Link
+                      to={`/dashboard/update-donation-request/${item._id}`}
+                      className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(item._id)}
+                      className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition"
+                    >
+                      Delete
+                    </button>
+                    <Link
+                      to={`/details-donation-request/${item._id}`}
+                      className="btn btn-sm bg-blue-500 text-white hover:bg-blue-600"
+                    >
+                      View
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex justify-center mt-4 space-x-4">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition"
+            >
+              Previous
+            </button>
+            <span className="text-lg font-bold">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

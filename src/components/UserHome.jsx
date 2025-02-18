@@ -86,7 +86,7 @@ const UserHome = () => {
     return (
         <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg min-h-screen">
             <div className="my-5">
-                <h2 className="text-3xl text-red-600">
+                <h2 className="text-2xl font-bold text-center text-red-600 mb-4">
                     <span>Welcome </span>
                     {userData?.name}
                 </h2>
@@ -154,7 +154,7 @@ const UserHome = () => {
                                         </button>
                                     </td>
                                     <td>
-                                        <Link to={`/dashboard/details-donation-request/${item._id}`} className="btn btn-sm bg-blue-500 text-white hover:bg-blue-600">
+                                        <Link to={`/details-donation-request/${item._id}`} className="btn btn-sm bg-blue-500 text-white hover:bg-blue-600">
                                             View
                                         </Link>
                                     </td>
