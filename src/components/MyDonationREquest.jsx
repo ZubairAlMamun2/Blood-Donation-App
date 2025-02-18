@@ -65,7 +65,7 @@ const MyDonationRequest = () => {
 
   return (
     <div className="min-h-screen bg-gray-100  flex justify-center">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full ">
+      <div className="bg-white shadow-lg rounded-lg  w-full ">
         <h2 className="text-2xl font-bold text-center text-red-600 mb-4">
           My Donation Requests
         </h2>

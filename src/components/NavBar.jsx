@@ -166,7 +166,7 @@ const NavBar = () => {
           )}
           {user && (
             <NavLink
-              to="/dashboard"
+              to="/dashboard/home"
               onClick={() => setIsOpen(false)}
               className={({ isActive }) =>
                 isActive ? "text-red-500 font-bold" : "hover:text-gray-600"

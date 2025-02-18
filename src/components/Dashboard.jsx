@@ -3,6 +3,7 @@ import { FaBook, FaHome, FaList, FaUsers, FaUtensils } from 'react-icons/fa';
 import { NavLink, Outlet } from 'react-router-dom';
 import { AuthContext } from '../provider/AuthProvider';
 import { Menu, X } from 'lucide-react';
+import MiniNav from './MiniNav';
 
 const Dashboard = () => {
     const { userData } = useContext(AuthContext);
@@ -10,14 +11,14 @@ const Dashboard = () => {
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
     return (
-        <div className="flex">
+        <div className="lg:flex">
             {/* Hamburger Menu */}
-            <button onClick={toggleSidebar} className="lg:hidden p-4 text-red-600 z-50">
+            <button onClick={toggleSidebar} className="hidden p-4 text-red-600 z-50">
                 {sidebarOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
 
             {/* Sidebar */}
-            <div className={`fixed lg:relative lg:flex lg:w-64 bg-red-600 text-white h-screen shadow-lg transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 z-40`}>  
+            <div className={`fixed hidden lg:relative lg:flex lg:w-64 bg-red-600 text-white h-screen shadow-lg transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 z-40`}>  
                 <ul className="menu p-4 space-y-4" onClick={() => setSidebarOpen(false)}>
                     {userData.role === "admin" && (
                         <>
@@ -55,7 +56,9 @@ const Dashboard = () => {
             </div>
 
             {/* Dashboard Content */}
+            <MiniNav />
             <div className="flex-1 p-2">
+                
                 <Outlet />
             </div>
         </div>

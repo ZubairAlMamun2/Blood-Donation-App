@@ -71,7 +71,7 @@ const CreateDonationRequest = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center  p-6 bg-white shadow-lg rounded-lg">
+    <div className="min-h-screen flex justify-center items-center   bg-white shadow-lg rounded-lg">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
         <h2 className="text-2xl font-semibold text-center text-red-600 mb-6">
           Create Donation Request
