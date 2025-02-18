@@ -39,7 +39,7 @@ const Login = () => {
       .then((result) => {
         // console.log(result.user);
         setUser(result.user);
-        axios.get(`https://blood-donation-xi-two.vercel.app/login/${email}`)
+        axios.get(`http://localhost:5000/login/${email}`)
           .then(res=>res.data.status=="active"?setActive("true"):setActive("false"))
           
         setError("");

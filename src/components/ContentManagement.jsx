@@ -18,13 +18,13 @@ const ContentManagement = () => {
   const { userData } = useContext(AuthContext);
   //   useEffect(() => {
   //     axios
-  //       .get("https://blood-donation-xi-two.vercel.app/all-blog")
+  //       .get("http://localhost:5000/all-blog")
   //       .then((res) => setBlogs(res.data));
   //   }, [userData,id]);
   const { data: blogs = [], refetch } = useQuery({
     queryKey: ["blogs"],
     queryFn: async () => {
-      const res = await axios.get("https://blood-donation-xi-two.vercel.app/all-blog");
+      const res = await axios.get("http://localhost:5000/all-blog");
       return res.data;
     },
   });
@@ -49,7 +49,7 @@ const ContentManagement = () => {
       status,
     };
     axios
-      .put(`https://blood-donation-xi-two.vercel.app/updateblogstatus/${id}`, blog, {
+      .put(`http://localhost:5000/updateblogstatus/${id}`, blog, {
         withCredentials: true,
       })
       .then((res) => {
@@ -72,7 +72,7 @@ const ContentManagement = () => {
       status,
     };
     axios
-      .put(`https://blood-donation-xi-two.vercel.app/updateblogstatus/${id}`, blog, {
+      .put(`http://localhost:5000/updateblogstatus/${id}`, blog, {
         withCredentials: true,
       })
       .then((res) => {
@@ -101,7 +101,7 @@ const ContentManagement = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://blood-donation-xi-two.vercel.app/deleteblog/${_id}`, {
+        fetch(`http://localhost:5000/deleteblog/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

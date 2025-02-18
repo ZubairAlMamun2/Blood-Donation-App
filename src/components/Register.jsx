@@ -104,7 +104,7 @@ const Register = () => {
             
             axios
               .post(
-                `https://blood-donation-xi-two.vercel.app/addnewuser`,
+                `http://localhost:5000/addnewuser`,
                 formData,
                 { withCredentials: true }
               )

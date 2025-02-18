@@ -78,7 +78,7 @@ const router = createBrowserRouter([
     element: <PrivetRoute><Dashboard /></PrivetRoute>,
     children: [
       {
-        path: '',
+        path: 'home',
         element: <UserHome />
       },
       {

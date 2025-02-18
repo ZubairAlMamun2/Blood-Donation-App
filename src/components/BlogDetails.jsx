@@ -14,7 +14,7 @@ const BlogDetails = () => {
     // /blog/:id
     useEffect(() => {
         axios
-          .get(`https://blood-donation-xi-two.vercel.app/blog/${id}`)
+          .get(`http://localhost:5000/blog/${id}`)
           .then((res) => setBlog(res.data));
       }, []);
   return (

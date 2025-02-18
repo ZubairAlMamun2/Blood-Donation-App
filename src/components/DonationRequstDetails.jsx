@@ -11,7 +11,7 @@ const DonationRequstDetails = () => {
   const navigate =useNavigate()
   useEffect(() => {
     axios
-      .get(`https://blood-donation-xi-two.vercel.app/donation/${id}`)
+      .get(`http://localhost:5000/donation/${id}`)
       .then((res) => setDonation(res.data));
   }, []);
   console.log(donation);
@@ -26,7 +26,7 @@ const DonationRequstDetails = () => {
         donationStatus
     };
     axios
-        .put(`https://blood-donation-xi-two.vercel.app/donate/${donation?._id}`, formData, {
+        .put(`http://localhost:5000/donate/${donation?._id}`, formData, {
           withCredentials: true,
         })
         .then((res) => {

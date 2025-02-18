@@ -14,7 +14,7 @@ const AllBloodDonationRequest = () => {
     const { data: donation = [], refetch } = useQuery({
       queryKey: ["donation"],
       queryFn: async () => {
-        const res = await axios.get("https://blood-donation-xi-two.vercel.app/mydonation");
+        const res = await axios.get("http://localhost:5000/mydonation");
         return res.data;
       },
     });
@@ -40,7 +40,7 @@ const AllBloodDonationRequest = () => {
           confirmButtonText: "Yes, delete it!",
         }).then((result) => {
           if (result.isConfirmed) {
-            fetch(`https://blood-donation-xi-two.vercel.app/deleterequest/${_id}`, {
+            fetch(`http://localhost:5000/deleterequest/${_id}`, {
               method: "DELETE",
             })
               .then((res) => res.json())
@@ -85,7 +85,7 @@ const AllBloodDonationRequest = () => {
       const donationStatus = "done";
       const formData = { donationStatus };
       axios
-        .put(`https://blood-donation-xi-two.vercel.app/changedonatestatus/${id}`, formData, {
+        .put(`http://localhost:5000/changedonatestatus/${id}`, formData, {
           withCredentials: true,
         })
         .then((res) => {
@@ -105,7 +105,7 @@ const AllBloodDonationRequest = () => {
       const donationStatus = "canceled";
       const formData = { donationStatus };
       axios
-        .put(`https://blood-donation-xi-two.vercel.app/changedonatestatus/${id}`, formData, {
+        .put(`http://localhost:5000/changedonatestatus/${id}`, formData, {
           withCredentials: true,
         })
         .then((res) => {

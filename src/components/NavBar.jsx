@@ -8,8 +8,8 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-red-600 text-white px-4 py-4 md:px-6 mb-5 shadow-lg relative">
-      <div className="flex justify-between items-center">
+    <nav className="bg-red-600 text-white  py-4  md:py-5 mb-5 shadow-lg relative">
+      <div className="flex justify-between items-center container mx-auto px-4">
         {/* Logo */}
         <h3 className="text-white text-3xl font-bold">RedHope</h3>
 
@@ -33,11 +33,13 @@ const NavBar = () => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center space-x-6 font-semibold text-lg">
+        <div className="hidden lg:flex items-center  space-x-6 font-semibold text-lg">
           <NavLink
             to="/"
             className={({ isActive }) =>
-              isActive ? "text-yellow-300 border-b-2 border-yellow-300" : "hover:text-gray-200"
+              isActive
+                ? "text-yellow-300 border-b-2 border-yellow-300 pb-1"
+                : "hover:text-gray-200"
             }
           >
             Home
@@ -45,7 +47,9 @@ const NavBar = () => {
           <NavLink
             to="/donation"
             className={({ isActive }) =>
-              isActive ? "text-yellow-300 border-b-2 border-yellow-300" : "hover:text-gray-200"
+              isActive
+                ? "text-yellow-300 border-b-2 border-yellow-300 pb-1"
+                : "hover:text-gray-200"
             }
           >
             Donation Requests
@@ -53,7 +57,9 @@ const NavBar = () => {
           <NavLink
             to="/blogs"
             className={({ isActive }) =>
-              isActive ? "text-yellow-300 border-b-2 border-yellow-300" : "hover:text-gray-200"
+              isActive
+                ? "text-yellow-300 border-b-2 border-yellow-300 pb-1"
+                : "hover:text-gray-200"
             }
           >
             Blogs
@@ -62,7 +68,9 @@ const NavBar = () => {
             <NavLink
               to="/funding"
               className={({ isActive }) =>
-                isActive ? "text-yellow-300 border-b-2 border-yellow-300" : "hover:text-gray-200"
+                isActive
+                  ? "text-yellow-300 border-b-2 border-yellow-300 pb-1"
+                  : "hover:text-gray-200"
               }
             >
               Fundings
@@ -70,9 +78,11 @@ const NavBar = () => {
           )}
           {user && (
             <NavLink
-              to="/dashboard"
+              to="/dashboard/home"
               className={({ isActive }) =>
-                isActive ? "text-yellow-300 border-b-2 border-yellow-300" : "hover:text-gray-200"
+                isActive
+                  ? "text-yellow-300 border-b-2 border-yellow-300 pb-1"
+                  : "hover:text-gray-200"
               }
             >
               Dashboard
@@ -81,7 +91,7 @@ const NavBar = () => {
           {user ? (
             <button
               onClick={Logout}
-              className="bg-white text-red-600 px-3 py-1 rounded hover:bg-gray-200"
+              className="bg-white text-red-600 px-4 py-2 rounded hover:bg-gray-200"
             >
               Log Out
             </button>
@@ -89,13 +99,13 @@ const NavBar = () => {
             <>
               <Link
                 to="/auth/login"
-                className="bg-white text-red-600 px-3 py-1 rounded hover:bg-gray-200"
+                className="bg-white text-red-600 px-4 py-2 rounded hover:bg-gray-200"
               >
                 Login
               </Link>
               <Link
                 to="/auth/register"
-                className="bg-white text-red-600 px-3 py-1 rounded hover:bg-gray-200"
+                className="bg-white text-red-600 px-4 py-2 rounded hover:bg-gray-200"
               >
                 Register
               </Link>
@@ -115,7 +125,7 @@ const NavBar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden flex flex-col mt-3 space-y-3 bg-white text-red-600 rounded-lg shadow-md p-4 absolute right-4 top-16 w-52 z-50">
+        <div className="lg:hidden flex flex-col mt-3 space-y-3 bg-white text-red-600 rounded-lg shadow-md p-5 absolute right-4 top-16 w-56 z-50">
           <NavLink
             to="/"
             onClick={() => setIsOpen(false)}
@@ -166,15 +176,24 @@ const NavBar = () => {
             </NavLink>
           )}
           {user ? (
-            <button onClick={Logout} className="bg-red-600 text-white px-3 py-1 rounded">
+            <button
+              onClick={Logout}
+              className="bg-red-600 text-white px-4 py-2 rounded"
+            >
               Log Out
             </button>
           ) : (
             <>
-              <Link to="/auth/login" className="bg-red-600 text-white px-3 py-1 rounded">
+              <Link
+                to="/auth/login"
+                className="bg-red-600 text-white px-4 py-2 rounded"
+              >
                 Login
               </Link>
-              <Link to="/auth/register" className="bg-red-600 text-white px-3 py-1 rounded">
+              <Link
+                to="/auth/register"
+                className="bg-red-600 text-white px-4 py-2 rounded"
+              >
                 Register
               </Link>
             </>

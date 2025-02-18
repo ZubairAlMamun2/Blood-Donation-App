@@ -14,7 +14,7 @@ const MyDonationRequest = () => {
   const { data: donations = [], refetch } = useQuery({
     queryKey: ["donations"],
     queryFn: async () => {
-      const res = await axios.get("https://blood-donation-xi-two.vercel.app/mydonation");
+      const res = await axios.get("http://localhost:5000/mydonation");
       return res.data;
     },
   });
@@ -37,7 +37,7 @@ const MyDonationRequest = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://blood-donation-xi-two.vercel.app/deleterequest/${_id}`, {
+        fetch(`http://localhost:5000/deleterequest/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -59,7 +59,7 @@ const MyDonationRequest = () => {
   const makeDone = (id) => {
     const donationStatus = "done";
     axios
-      .put(`https://blood-donation-xi-two.vercel.app/changedonatestatus/${id}`, { donationStatus })
+      .put(`http://localhost:5000/changedonatestatus/${id}`, { donationStatus })
       .then((res) => {
         if (res.data.acknowledged) {
           Swal.fire({
@@ -76,7 +76,7 @@ const MyDonationRequest = () => {
   const makeCancel = (id) => {
     const donationStatus = "canceled";
     axios
-      .put(`https://blood-donation-xi-two.vercel.app/changedonatestatus/${id}`, { donationStatus })
+      .put(`http://localhost:5000/changedonatestatus/${id}`, { donationStatus })
       .then((res) => {
         if (res.data.acknowledged) {
           Swal.fire({
