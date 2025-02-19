@@ -1,218 +1,123 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../provider/AuthProvider';
-import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../provider/AuthProvider";
+import { Link } from "react-router-dom";
+
 const SearchDonor = () => {
-    const [type, setType] = useState('');
+  const [type, setType] = useState("");
   const [district, setDistrict] = useState("");
-  const [districtreasorce, setDistrictreasorce] = useState([""]);
+  const [districts, setDistricts] = useState([]);
   const [upazila, setUpazila] = useState("");
-  const [upazilareasorce2, setUpazilareasorce2] = useState([""]);
-  const [upazilareasorce, setUpazilareasorce] = useState([""]);
-  const {user,userData} = useContext(AuthContext);
-  const navigate = useNavigate();
-  console.log(userData.status)
-
-  const [data,setData]=useState([]);
-  const [enable,setEnable]=useState(false);
-  let [Id,setId]=useState('');
-  useEffect(()=>{
-            axios
-            .get(
-              `http://localhost:5000/all-user`,
-        
-              { withCredentials: true }
-            )
-        
-            .then((res) => {
-                const filtredData=res.data.filter(item=>item.role=="donor"&&item.bloodGroup==type&&item.selecteddistrict==district&&item.selectedupazila==upazila)
-                
-              setData(filtredData);
-            });
-          },[Id])
-          
+  const [upazilas, setUpazilas] = useState([]);
+  const [filteredUpazilas, setFilteredUpazilas] = useState([]);
+  const [donors, setDonors] = useState([]);
+  const [loading, setLoading] = useState(false);
   
+  useEffect(() => {
+    fetch("/district.json")
+      .then((res) => res.json())
+      .then((data) => setDistricts(data));
 
-    useEffect(() => {
-        fetch("/district.json")
-          .then((response) => response.json())
-          .then((data) => {
-            //console.log(data[0])
-            setDistrictreasorce(data);
-          });
-      }, []);
-      useEffect(() => {
-        fetch("/upazila.json")
-          .then((response) => response.json())
-          .then((data) => {
-            //console.log(data[0])
-    
-            setUpazilareasorce2(data);
-          });
-      }, []);
-    
-      useEffect(() => {
-        const filtreddata1 = districtreasorce.filter(
-          (data) => data.name == district
-        );
-        const filtreddata2 = upazilareasorce2.filter(
-          (data) => data.district_id == filtreddata1[0]?.id
-        );
-        // console.log(filtreddata1[0].id)
-        setUpazilareasorce(filtreddata2);
-      }, [district]);
-      
+    fetch("/upazila.json")
+      .then((res) => res.json())
+      .then((data) => setUpazilas(data));
+  }, []);
 
-      const handleSubmit = (e) => {
-        e.preventDefault();
- 
-        const form = new FormData(e.target);
-        const bloodGroup = type;
-        const selecteddistrict = district;
-        const selectedupazila = upazila;
+  useEffect(() => {
+    const selectedDistrict = districts.find((d) => d.name === district);
+    if (selectedDistrict) {
+      setFilteredUpazilas(upazilas.filter((u) => u.district_id === selectedDistrict.id));
+    }
+  }, [district, districts, upazilas]);
 
-        
-        const formData = {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await axios.get("http://localhost:5000/all-user", { withCredentials: true });
+      const filteredDonors = res.data.filter(
+        (user) => user.role === "donor" && user.bloodGroup === type && user.selecteddistrict === district && user.selectedupazila === upazila
+      );
+      setDonors(filteredDonors);
+    } catch (error) {
+      console.error("Error fetching donors:", error);
+    }
+    setLoading(false);
+  };
 
-          bloodGroup,
-          selecteddistrict,
-          selectedupazila,
-
-        };
-        // console.log(formData)
-        setId(Id++)
-       setEnable(true)
-      
-       
-        console.log(data)
-    
-       
-      };
   return (
-    <div className="min-h-screen md:flex justify-evenly items-center">
-      <div className="card rounded-none shadow-xl bg-base-100 w-full max-w-lg shrink-0 p-10">
-      <Link to="/"  className="text-lg my-3 btn btn-primary btn-sm font-semibold text-center">
-         Go Back 
-        </Link>
-        <h2 className="text-2xl font-semibold text-center">
-          Search Donor
-        </h2>
-        <form onSubmit={handleSubmit} className="card-body p-0">
-
-        <div className="form-control">
-            <label className="label">
-              <span className="label-text">Blood group</span>
-            </label>
-            <select
-              onChange={(e) => setType(e.target.value)}
-              required
-              value={type}
-            >
-              <option disabled value="">
-                Select Blood group
-              </option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-            </select>
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">District</span>
-            </label>
-            <select
-              onChange={(e) => setDistrict(e.target.value)}
-              required
-              value={district}
-            >
-              <option disabled value="">
-                Select District
-              </option>
-              {districtreasorce.map((option) => {
-                return (
-                  <option key={option.id} value={option.name}>
-                    {option.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Upazila</span>
-            </label>
-            <select
-              onChange={(e) => setUpazila(e.target.value)}
-              required
-              value={upazila}
-            >
-              <option disabled value="">
-                Select Upazila
-              </option>
-              {upazilareasorce.map((option) => {
-                return (
-                  <option key={option.id} value={option.name}>
-                    {option.name}
-                  </option>
-                );
-              })}
+    <div className="min-h-screen flex flex-col items-center py-10 px-4">
+      <Link to="/" className="mb-4 px-5 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-500 transition">
+        Go Back
+      </Link>
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg">
+        <h2 className="text-2xl font-semibold text-center text-red-600 mb-4">Search Donor</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium">Blood Group</label>
+            <select className="w-full p-2 border rounded" value={type} onChange={(e) => setType(e.target.value)} required>
+              <option value="" disabled>Select Blood Group</option>
+              {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((bg) => (
+                <option key={bg} value={bg}>{bg}</option>
+              ))}
             </select>
           </div>
 
-
-          
-          <div className="form-control mt-6">
-            <button className="btn btn-primary btn-sm rounded-none">Search</button>
+          <div>
+            <label className="block text-sm font-medium">District</label>
+            <select className="w-full p-2 border rounded" value={district} onChange={(e) => setDistrict(e.target.value)} required>
+              <option value="" disabled>Select District</option>
+              {districts.map((d) => (
+                <option key={d.id} value={d.name}>{d.name}</option>
+              ))}
+            </select>
           </div>
+
+          <div>
+            <label className="block text-sm font-medium">Upazila</label>
+            <select className="w-full p-2 border rounded" value={upazila} onChange={(e) => setUpazila(e.target.value)} required>
+              <option value="" disabled>Select Upazila</option>
+              {filteredUpazilas.map((u) => (
+                <option key={u.id} value={u.name}>{u.name}</option>
+              ))}
+            </select>
+          </div>
+
+          <button className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-500 transition">Search</button>
         </form>
-
-        
-       
       </div>
-      {
-            enable?<div className='my-5'>
-            <h2 className='text-center font-bold'>Donor Information</h2>
-            <div className="">
-      <table className="table">
-        {/* head */}
-        <thead>
-          <tr className="border">
-            <th>user Photo</th>
-            <th>user email</th>
-            <th>user name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* row 1 */}
-          {data?.map((item) => {
-            return (
-              <tr key={item._id} className="border">
-                <td>
-                  <img
-                    className="w-8 h-8 border rounded-full"
-                    src={item.photo}
-                    alt=""
-                  />
-                </td>
-                <td>{item.email}</td>
-                <td>{item.name}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-            </div>:<></>
-        }
-      
-    </div>
-  )
-}
 
-export default SearchDonor
+      {loading ? (
+        <div className="mt-6 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-red-500 border-t-transparent"></div>
+        </div>
+      ) : donors.length > 0 ? (
+        <div className="mt-6 w-full max-w-2xl bg-white p-6 rounded-lg shadow-lg">
+          <h3 className="text-xl font-semibold text-center mb-4 text-red-600">Donor Information</h3>
+          <table className="w-full border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-red-100">
+                <th className="border p-2">Photo</th>
+                <th className="border p-2">Email</th>
+                <th className="border p-2">Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {donors.map((donor) => (
+                <tr key={donor._id} className="text-center border">
+                  <td className="border p-2">
+                    <img src={donor.photo} alt="User" className="w-10 h-10 rounded-full mx-auto" />
+                  </td>
+                  <td className="border p-2">{donor.email}</td>
+                  <td className="border p-2">{donor.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
+export default SearchDonor;

@@ -33,7 +33,8 @@ const BlogSection = () => {
   }
 
   return (
-    <section className="bg-white py-12">
+    <div className="container mx-auto md:px-4 mt-4">
+        <section className="bg-white py-12 rounded-2xl my-2 md:px-4">
       <div className="container mx-auto px-4">
         {/* Section Title */}
         <h2 className="text-3xl font-bold text-red-600 text-center mb-8">
@@ -73,6 +74,7 @@ const BlogSection = () => {
         </div>
       </div>
     </section>
+    </div>
   );
 };
 

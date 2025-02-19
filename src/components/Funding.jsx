@@ -14,7 +14,7 @@ const Funding = () => {
     });
 
     return (
-        <div className="bg-gray-100 min-h-screen">
+        <div className="dark:bg-slate-400 min-h-screen">
             <NavBar />
             <div className="container mx-auto mt-20 px-4 py-6 min-h-screen">
                 <h2 className="text-center text-3xl font-bold text-red-600 mb-6">Funding Details</h2>
@@ -28,7 +28,7 @@ const Funding = () => {
                     <div className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-xl font-semibold text-gray-700">Total Funding</h3>
-                            <button className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-md text-sm transition">
+                            <button className="bg-red-600 hidden hover:bg-red-700 text-white px-5 py-2 rounded-md text-sm transition">
                                 Pay
                             </button>
                         </div>

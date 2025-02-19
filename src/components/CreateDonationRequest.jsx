@@ -76,33 +76,34 @@ const CreateDonationRequest = () => {
         <h2 className="text-2xl font-semibold text-center text-red-600 mb-6">
           Create Donation Request
         </h2>
-        <form onSubmit={handleSubmit}>
+        <form  onSubmit={handleSubmit}>
           <div className="space-y-4">
             <input
               name="requester-name"
               type="text"
+              
               value={userData?.name || ""}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-white"
               readOnly
             />
             <input
               name="requester-email"
               type="email"
               value={user?.email || ""}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-white"
               readOnly
             />
             <input
               name="recipient-name"
               type="text"
               placeholder="Recipient Name"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-white"
               required
             />
             <select
               onChange={(e) => setDistrict(e.target.value)}
               value={district}
-              className="select select-bordered w-full"
+              className="select select-bordered w-full bg-white"
               required
             >
               <option value="">Select District</option>
@@ -113,7 +114,7 @@ const CreateDonationRequest = () => {
             <select
               onChange={(e) => setUpazila(e.target.value)}
               value={upazila}
-              className="select select-bordered w-full"
+              className="select select-bordered w-full bg-white"
               required
             >
               <option value="">Select Upazila</option>
@@ -125,20 +126,20 @@ const CreateDonationRequest = () => {
               name="hospital-name"
               type="text"
               placeholder="Hospital Name"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-white"
               required
             />
             <input
               name="address"
               type="text"
               placeholder="Address"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-white"
               required
             />
             <select
               onChange={(e) => setType(e.target.value)}
               value={type}
-              className="select select-bordered w-full"
+              className="select select-bordered w-full bg-white"
               required
             >
               <option value="">Select Blood Group</option>
@@ -149,19 +150,19 @@ const CreateDonationRequest = () => {
             <input
               name="date"
               type="date"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-white"
               required
             />
             <input
               name="time"
               type="time"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-white"
               required
             />
             <textarea
               name="request-message"
               placeholder="Request Message"
-              className="textarea textarea-bordered w-full"
+              className="textarea textarea-bordered w-full bg-white"
               required
             ></textarea>
             <button className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700">

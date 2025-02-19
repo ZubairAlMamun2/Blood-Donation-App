@@ -26,7 +26,7 @@ const PendingDonationRequest = () => {
   }, [user, donations]);
 
   return (
-    <div className="bg-gray-100 mt-20 min-h-screen">
+    <div className=" mt-20 min-h-screen">
       <NavBar />
       <div className="container mx-auto px-4 py-6 min-h-screen">
         <h2 className="text-center text-3xl font-bold text-red-600 mb-6">Pending Donation Requests</h2>

@@ -35,7 +35,7 @@ const slidesData = [
 
 const Carosel = () => {
   return (
-    <div className="container mx-auto p-4 mt-20">
+    <div className="container mx-auto p-4 ">
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
         pagination={{ clickable: true }}
@@ -55,7 +55,7 @@ const Carosel = () => {
               />
 
               {/* Dark Overlay */}
-              <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#000000cc] to-[#00000055] flex flex-col justify-center items-center text-center px-4 sm:px-10 md:px-16 lg:px-32 text-white gap-4 md:gap-6">
+              <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#1a1818cc] to-[#241e1e55] flex flex-col justify-center items-center text-center px-4 sm:px-10 md:px-16 lg:px-32 text-white gap-4 md:gap-6">
                 {/* Title */}
                 <motion.h2
                   initial={{ opacity: 0, y: -20 }}

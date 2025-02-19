@@ -39,7 +39,8 @@ const ContactUs = () => {
   };
 
   return (
-    <section id="contact" className="min-h-screen container mx-auto flex flex-col items-center justify-center text-black bg-white   md:w-full my-4">
+    <div className="container mx-auto md:px-4">
+      <section id="contact" className="min-h-screen rounded-2xl container mx-auto flex flex-col items-center justify-center text-black bg-white   md:w-full mb-8">
       <h2 className="text-4xl font-bold text-center mb-3 text-red-600">Contact Us</h2>
       <p className=" text-black text-center p-2 mb-8">Got a question? Send me a message, and I'll get back to you soon.</p>
 
@@ -86,7 +87,7 @@ const ContactUs = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full mt-1 p-2 rounded border border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="w-full mt-1 p-2 rounded border bg-white border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
                 placeholder="Enter your name"
               />
             </label>
@@ -99,7 +100,7 @@ const ContactUs = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full mt-1 p-2 rounded border border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="w-full mt-1 p-2 rounded border bg-white border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
                 placeholder="Enter your email"
               />
             </label>
@@ -111,7 +112,7 @@ const ContactUs = () => {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                className="w-full mt-1 p-2 rounded border border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="w-full mt-1 p-2 rounded border bg-white border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
                 placeholder="Write your message here..."
                 rows="4"
               />
@@ -127,6 +128,7 @@ const ContactUs = () => {
         </div>
       </div>
     </section>
+    </div>
   );
 };
 

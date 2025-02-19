@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const Banner = () => {
   return (
-    <div className="container mx-auto md:p-4 ">
+    <div className="container mx-auto md:px-4  mt-2 pb-4">
       <div
-      className="relative min-h-[60vh] md:p-4  mt-10 flex items-center justify-center"
+      className="relative min-h-[60vh] md:p-4 rounded-2xl mt-4 flex items-center justify-center"
       style={{
         backgroundImage:
           "url(https://i.ibb.co/snd8pjb/pexels-puwadon-sang-ngern-2168173-5340269.jpg)",

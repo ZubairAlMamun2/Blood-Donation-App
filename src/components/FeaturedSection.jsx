@@ -2,7 +2,7 @@ import React from "react";
 
 const FeaturedSection = () => {
   return (
-    <div className=" lg:container mx-auto lg:p-4">
+    <div className=" lg:container mx-auto mt-4 md:p-4">
       <div className="mb-4 p-4 md:p-8 bg-white shadow-xl rounded-2xl">
       {/* Section Title */}
       <h2 className="text-3xl font-bold text-center text-red-600 mb-6">

@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+    --background-color-light: #ffffff;
+    --background-color-dark: #000000;  /* Dark background color */
+    --text-color-light: #000000;  /* Light text color */
+    --text-color-dark: #000000;   /* Dark text color */
+  }
+  
+  [data-theme='light'] {
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+  }
+  
+  [data-theme='dark'] {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+  }
+  
