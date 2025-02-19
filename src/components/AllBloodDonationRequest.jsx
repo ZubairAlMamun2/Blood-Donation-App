@@ -122,7 +122,7 @@ const AllBloodDonationRequest = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg min-h-screen">
+    <div className="container mx-auto p-2 bg-white shadow-lg rounded-lg min-h-screen">
       <div className="flex justify-between items-center py-4 mb-6 flex-wrap">
         <h1 className="text-2xl font-semibold text-red-600">Donation Requests</h1>
 
@@ -140,7 +140,7 @@ const AllBloodDonationRequest = () => {
         </select>
       </div>
 
-      <table className="table-auto  border-collapse mb-6">
+      <div className="overflow-x-auto"><table className="w-full border border-gray-300">
         {/* Head */}
         <thead>
           <tr className="bg-red-600 text-white">
@@ -227,7 +227,7 @@ const AllBloodDonationRequest = () => {
             </tr>
           )}
         </tbody>
-      </table>
+      </table></div>
 
       {/* Pagination */}
       <div className="flex justify-center mt-4">

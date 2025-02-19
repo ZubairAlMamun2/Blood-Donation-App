@@ -66,7 +66,7 @@ const ContentManagement = () => {
   };
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg min-h-screen">
+    <div className="p-2 bg-white shadow-lg rounded-lg min-h-screen">
       <div className="flex justify-between items-center py-4 mb-6 flex-wrap">
         <h1 className="text-2xl font-semibold text-red-600">Blog Management</h1>
         <div className="flex gap-2">

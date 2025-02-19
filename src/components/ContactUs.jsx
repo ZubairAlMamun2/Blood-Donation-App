@@ -1,48 +1,133 @@
-import React from 'react'
-import Swal from 'sweetalert2';
+import { useState } from "react";
+import { FaEnvelope, FaPhone, FaWhatsapp, FaUser, FaComment } from "react-icons/fa";
+import Swal from "sweetalert2";
+import emailjs from "@emailjs/browser";
 
 const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
-    const handleSubmit=(e)=>{
-        e.preventDefault();
-        Swal.fire({
-            title: "Success!",
-            text: "Form Submited succesfully",
+  const [status, setStatus] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    emailjs
+      .send("service_yx9rea4", "template_2gxrglu", formData, "oHRFApaPTor9avKtz")
+      .then(
+        () => {
+          setStatus("Message sent successfully!");
+          setFormData({ name: "", message: "", email: "" });
+          Swal.fire({
+            title: "Your message is received!",
             icon: "success",
-            confirmButtonText: "Cool",
+            draggable: true,
           });
           e.target.reset();
-          
-    }
+        },
+        (error) => {
+          setStatus("Failed to send message. Try again.");
+          console.error("EmailJS Error:", error);
+        }
+      );
+  };
 
   return (
-    <div className='my-5 border rounded-lg p-2'>
-        <div><h2 className="text-2xl font-semibold text-center mb-2">Contuct Us</h2>
-                <div className='md:flex justify-evenly gap-8'>
-                <div className="card bg-base-100 w-full my-2 max-w-sm shrink-0 shadow-2xl">
-      <form onSubmit={handleSubmit} className="card-body">
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Name</span>
-          </label>
-          <input type="text" placeholder="Your Name" className="input input-bordered" required />
-        </div>
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Email</span>
-          </label>
-          <input type="email" placeholder="Email" className="input input-bordered" required />
-          
-        </div>
-        <div className="form-control mt-6">
-          <button className="btn btn-primary btn-sm">Submit</button>
-        </div>
-      </form>
-    </div>
-                    <div className='mt-24'><h2 className='text-xl text-center font-semibold'>Our Contact Number</h2>
-                    <h2 className='text-center'> +8901754168</h2></div></div></div>
-    </div>
-  )
-}
+    <section id="contact" className="min-h-screen flex flex-col items-center justify-center text-black bg-white p-2  w-full my-4">
+      <h2 className="text-4xl font-bold text-center mb-3 text-red-600">Contact Us</h2>
+      <p className=" text-black text-center mb-8">Got a question? Send me a message, and I'll get back to you soon.</p>
 
-export default ContactUs
+      <div className="grid px-2 lg:px-4 md:grid-cols-2 gap-8 container mx-auto">
+        {/* Contact Info */}
+        <div className="bg-white text-black p-6 rounded-xl shadow-lg">
+          <h3 className="text-xl text-red-600 font-semibold mb-4">Get in Touch</h3>
+          <p className="mb-4">Have something to discuss? Send me an email or contact me via phone.</p>
+
+          <div className="space-y-4">
+            <div className="flex items-center space-x-3">
+              <FaEnvelope className="text-xl text-black" />
+              <a href="mailto:zubairalmamun888@gmail.com" className="text-lg text-black hover:underline">
+                zubairalmamun888@gmail.com
+              </a>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <FaPhone className="text-xl text-black" />
+              <span className="text-lg">+880 1754163888</span>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <FaWhatsapp className="text-xl text-green-500" />
+              <a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer" className="text-lg text-green-500 hover:underline">
+                Chat on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Form */}
+        <div className="bg-white p-6 rounded-xl shadow-lg">
+          <h3 className="text-xl font-semibold mb-4 text-red-600 flex items-center">
+            <FaComment className="mr-2" /> Send a Message
+          </h3>
+
+          <form onSubmit={handleSubmit}>
+            <label className="block mb-3">
+              <span className="text-sm font-medium text-black">👤 Name *</span>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="w-full mt-1 p-2 rounded border border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                placeholder="Enter your name"
+              />
+            </label>
+
+            <label className="block mb-3">
+              <span className="text-sm font-medium text-black">📧 Email *</span>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full mt-1 p-2 rounded border border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                placeholder="Enter your email"
+              />
+            </label>
+
+            <label className="block mb-3">
+              <span className="text-sm font-medium text-black">💭 Message *</span>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                className="w-full mt-1 p-2 rounded border border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                placeholder="Write your message here..."
+                rows="4"
+              />
+            </label>
+
+            <button
+              type="submit"
+              className="w-full mt-4 bg-red-600 hover:bg-red-500 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ContactUs;

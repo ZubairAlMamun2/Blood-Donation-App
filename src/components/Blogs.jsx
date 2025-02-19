@@ -34,7 +34,7 @@ const Blogs = () => {
   return (
     <div className="bg-gray-100 ">
       <NavBar />
-      <main className="container mx-auto px-4 py-8 min-h-screen">
+      <main className="container mx-auto px-4 py-8 mt-20 min-h-screen">
         <h2 className="text-3xl font-bold text-red-600 text-center mb-8">Our Latest Blogs</h2>
 
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">

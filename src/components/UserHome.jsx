@@ -101,7 +101,7 @@ const UserHome = () => {
   };
 
   return (
-    <div className="container mx-auto  bg-white shadow-lg rounded-lg min-h-screen">
+    <div className="container mx-auto p-2  bg-white shadow-lg rounded-lg min-h-screen">
       <div className="my-5">
         <h2 className="text-2xl font-bold text-center text-red-600 mb-4">
           <span>Welcome </span>

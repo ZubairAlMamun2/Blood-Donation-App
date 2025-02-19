@@ -78,9 +78,7 @@ const Login = () => {
             >
               {passtype ? <FaEyeSlash /> : <FaEye />}
             </span>
-            <label className="label text-right">
-              <Link className="text-sm text-red-500 hover:underline">Forgot password?</Link>
-            </label>
+            
           </div>
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
           <button className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700 transition">Login</button>

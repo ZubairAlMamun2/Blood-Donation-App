@@ -83,7 +83,7 @@ const AllUser = () => {
   };
 
   return (
-    <div className=" p-6 bg-white shadow-lg rounded-lg min-h-screen">
+    <div className=" p-2 bg-white shadow-lg rounded-lg min-h-screen">
       <div className="flex justify-between items-center py-4 mb-6 flex-wrap">
         <h1 className="text-2xl font-semibold text-red-600">User List</h1>
         <select
@@ -97,86 +97,96 @@ const AllUser = () => {
         </select>
       </div>
 
-      <table className="table-auto border-collapse mb-6">
-        <thead>
-          <tr className="bg-red-600 text-white">
-            <th className="py-2 px-4 text-left">User Avatar</th>
-            <th className="py-2 px-4 text-left">User Email</th>
-            <th className="py-2 px-4 text-left">User Name</th>
-            <th className="py-2 px-4 text-left">User Role</th>
-            <th className="py-2 px-4 text-left">User Status</th>
-            <th className="py-2 px-4 text-left">Manage Status</th>
-            <th className="py-2 px-4 text-left">Manage Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentUsers.length > 0 ? (
-            currentUsers.map((item) => (
-              <tr key={item._id} className="border-b">
-                <td className="py-2 px-4">
-                  <img
-                    className="w-10 h-10 border rounded-full"
-                    src={item.photo}
-                    alt="User Avatar"
-                  />
-                </td>
-                <td className="py-2 px-4">{item.email}</td>
-                <td className="py-2 px-4">{item.name}</td>
-                <td className="py-2 px-4">{item.role}</td>
-                <td className="py-2 px-4">{item.status}</td>
-                <td className="py-2 px-4">
-                  {item.status === "active" ? (
-                    <button
-                      className="bg-red-600 text-white py-1 px-4 rounded-md hover:bg-red-700"
-                      onClick={() => handleBlock(item._id)}
+      <div className="overflow-x-auto">
+        <table className="w-full border border-gray-300">
+          <thead className="bg-red-600 text-white">
+            <tr>
+              <th className="p-2">User Avatar</th>
+              <th className="p-2">User Email</th>
+              <th className="p-2">User Name</th>
+              <th className="p-2">User Role</th>
+              <th className="p-2">User Status</th>
+              <th className="p-2">Manage Status</th>
+              <th className="p-2">Manage Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentUsers.length > 0 ? (
+              currentUsers.map((item) => (
+                <tr key={item._id} className="border text-center">
+                  <td className="p-2">
+                    <img
+                      className="w-10 h-10 border rounded-full mx-auto"
+                      src={item.photo}
+                      alt="User Avatar"
+                    />
+                  </td>
+                  <td className="p-2">{item.email}</td>
+                  <td className="p-2">{item.name}</td>
+                  <td className="p-2 font-bold">{item.role}</td>
+                  <td className="p-2">
+                    <span
+                      className={`px-2 py-1 rounded-md text-black ${
+                        item.status === "active" ? "bg-green-100" : "bg-red-100"
+                      }`}
                     >
-                      Block
-                    </button>
-                  ) : (
-                    <button
-                      className="bg-green-600 text-white py-1 px-4 rounded-md hover:bg-green-700"
-                      onClick={() => handleUnBlock(item._id)}
-                    >
-                      Unblock
-                    </button>
-                  )}
-                </td>
-                <td className="py-2 px-4">
-                  {item.role === "donor" ? (
-                    <>
+                      {item.status}
+                    </span>
+                  </td>
+                  <td className="p-2">
+                    {item.status === "active" ? (
                       <button
-                        className="bg-green-600 text-white py-1 px-4 rounded-md hover:bg-green-700"
+                        className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition"
+                        onClick={() => handleBlock(item._id)}
+                      >
+                        Block
+                      </button>
+                    ) : (
+                      <button
+                        className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition"
+                        onClick={() => handleUnBlock(item._id)}
+                      >
+                        Unblock
+                      </button>
+                    )}
+                  </td>
+                  <td className="p-2 flex justify-center space-x-2">
+                    {item.role === "donor" ? (
+                      <>
+                        <button
+                          className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition"
+                          onClick={() => makeAdmin(item._id)}
+                        >
+                          Make Admin
+                        </button>
+                        <button
+                          className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 transition"
+                          onClick={() => makeVolunteer(item._id)}
+                        >
+                          Make Volunteer
+                        </button>
+                      </>
+                    ) : item.role === "volunteer" ? (
+                      <button
+                        className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition"
                         onClick={() => makeAdmin(item._id)}
                       >
                         Make Admin
                       </button>
-                      <button
-                        className="bg-green-600 mt-1 text-white py-1 px-1 rounded-md hover:bg-green-700"
-                        onClick={() => makeVolunteer(item._id)}
-                      >
-                        Make Volunteer
-                      </button>
-                    </>
-                  ) : item.role === "volunteer" ? (
-                    <button
-                      className="bg-green-600 text-white py-1 px-4 rounded-md hover:bg-green-700"
-                      onClick={() => makeAdmin(item._id)}
-                    >
-                      Make Admin
-                    </button>
-                  ) : null}
+                    ) : null}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" className="text-center py-4 text-red-500">
+                  No users found for the selected filter.
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="7" className="text-center py-4 text-red-500">
-                No users found for the selected filter.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* Pagination */}
       <div className="flex justify-center mt-6">

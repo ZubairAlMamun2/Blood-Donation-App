@@ -16,7 +16,7 @@ const Funding = () => {
     return (
         <div className="bg-gray-100 min-h-screen">
             <NavBar />
-            <div className="container mx-auto px-4 py-6 min-h-screen">
+            <div className="container mx-auto mt-20 px-4 py-6 min-h-screen">
                 <h2 className="text-center text-3xl font-bold text-red-600 mb-6">Funding Details</h2>
 
                 {/* Spinner (Loading) */}
