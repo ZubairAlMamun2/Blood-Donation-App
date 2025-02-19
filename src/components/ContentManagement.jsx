@@ -90,7 +90,7 @@ const ContentManagement = () => {
           filteredBlogs.map((item) => (
             <div key={item._id} className="bg-white p-4 shadow-md rounded-lg border">
               <h2 className="text-lg font-semibold text-red-600 min-h-16">{item.title}</h2>
-              <div className="text-sm min-h-42 text-gray-600 my-2">
+              <div className="text-sm min-h-44 text-gray-600 my-2">
                 <BlogPost htmlString={item.content.slice(0, 250)} />...
               </div>
               <p className="text-gray-700 font-medium">Status: {item.status}</p>

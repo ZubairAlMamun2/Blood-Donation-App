@@ -39,30 +39,30 @@ const ContactUs = () => {
   };
 
   return (
-    <section id="contact" className="min-h-screen flex flex-col items-center justify-center text-black bg-white p-2  w-full my-4">
+    <section id="contact" className="min-h-screen container mx-auto flex flex-col items-center justify-center text-black bg-white   md:w-full my-4">
       <h2 className="text-4xl font-bold text-center mb-3 text-red-600">Contact Us</h2>
-      <p className=" text-black text-center mb-8">Got a question? Send me a message, and I'll get back to you soon.</p>
+      <p className=" text-black text-center p-2 mb-8">Got a question? Send me a message, and I'll get back to you soon.</p>
 
-      <div className="grid px-2 lg:px-4 md:grid-cols-2 gap-8 container mx-auto">
+      <div className="grid md:px-4 md:grid-cols-2 gap-8 md:container md:mx-auto">
         {/* Contact Info */}
         <div className="bg-white text-black p-6 rounded-xl shadow-lg">
           <h3 className="text-xl text-red-600 font-semibold mb-4">Get in Touch</h3>
           <p className="mb-4">Have something to discuss? Send me an email or contact me via phone.</p>
 
           <div className="space-y-4">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center md:space-x-3">
               <FaEnvelope className="text-xl text-black" />
               <a href="mailto:zubairalmamun888@gmail.com" className="text-lg text-black hover:underline">
                 zubairalmamun888@gmail.com
               </a>
             </div>
 
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center md:space-x-3">
               <FaPhone className="text-xl text-black" />
               <span className="text-lg">+880 1754163888</span>
             </div>
 
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center md:space-x-3">
               <FaWhatsapp className="text-xl text-green-500" />
               <a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer" className="text-lg text-green-500 hover:underline">
                 Chat on WhatsApp
