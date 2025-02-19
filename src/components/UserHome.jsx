@@ -17,7 +17,7 @@ const UserHome = () => {
   const { data: funds = [] } = useQuery({
     queryKey: ["funds"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/totalfunds");
+      const res = await axios.get("https://blood-donation-xi-two.vercel.app/totalfunds");
       return res.data;
     },
   });
@@ -36,7 +36,7 @@ const UserHome = () => {
   } = useQuery({
     queryKey: ["loadeddonations"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/mydonation");
+      const res = await axios.get("https://blood-donation-xi-two.vercel.app/mydonation");
       return res.data;
     },
   });
@@ -45,7 +45,7 @@ const UserHome = () => {
   const { data: donor = [] } = useQuery({
     queryKey: ["donor"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/all-user");
+      const res = await axios.get("https://blood-donation-xi-two.vercel.app/all-user");
       return res.data;
     },
   });
@@ -80,7 +80,7 @@ const UserHome = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/deleterequest/${_id}`, {
+        fetch(`https://blood-donation-xi-two.vercel.app/deleterequest/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

@@ -12,7 +12,7 @@ const BlogSection = () => {
   const { data: blogs = [], isLoading, error } = useQuery({
     queryKey: ["blogs"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/all-blog");
+      const res = await axios.get("https://blood-donation-xi-two.vercel.app/all-blog");
       return res.data
         .filter((blog) => blog.status === "published")
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by newest first

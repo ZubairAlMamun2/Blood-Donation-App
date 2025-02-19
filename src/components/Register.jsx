@@ -71,7 +71,7 @@ const Register = () => {
       .then((result) => {
         setError("");
         UpdateUserProfile({ displayName: name, photoURL: photo }).then(() => {
-          axios.post("http://localhost:5000/addnewuser", formData, { withCredentials: true })
+          axios.post("https://blood-donation-xi-two.vercel.app/addnewuser", formData, { withCredentials: true })
             .then((res) => {
               if (res.data.acknowledged) {
                 Swal.fire({

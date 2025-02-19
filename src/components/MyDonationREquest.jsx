@@ -14,7 +14,7 @@ const MyDonationRequest = () => {
   const { data: donations = [], refetch } = useQuery({
     queryKey: ["donations"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/mydonation");
+      const res = await axios.get("https://blood-donation-xi-two.vercel.app/mydonation");
       return res.data;
     },
   });
@@ -37,7 +37,7 @@ const MyDonationRequest = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:5000/deleterequest/${_id}`).then((res) => {
+        axios.delete(`https://blood-donation-xi-two.vercel.app/deleterequest/${_id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             Swal.fire("Deleted!", "Your request has been deleted.", "success");
             refetch();
@@ -48,7 +48,7 @@ const MyDonationRequest = () => {
   };
 
   const updateStatus = (id, status) => {
-    axios.put(`http://localhost:5000/changedonatestatus/${id}`, { donationStatus: status })
+    axios.put(`https://blood-donation-xi-two.vercel.app/changedonatestatus/${id}`, { donationStatus: status })
       .then((res) => {
         if (res.data.acknowledged) {
           Swal.fire("Updated!", "Donation status has been updated.", "success");

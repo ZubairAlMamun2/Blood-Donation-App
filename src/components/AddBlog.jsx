@@ -35,7 +35,7 @@ const AddBlog = ({ placeholder }) => {
     
         axios
         .post(
-          `http://localhost:5000/addnewblog`,
+          `https://blood-donation-xi-two.vercel.app/addnewblog`,
           formData,
           { withCredentials: true }
         )

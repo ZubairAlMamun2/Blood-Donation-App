@@ -15,7 +15,7 @@ const BlogDetails = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/blog/${id}`)
+    axios.get(`https://blood-donation-xi-two.vercel.app/blog/${id}`)
       .then((res) => setBlog(res.data))
       .catch((error) => console.error("Error fetching blog:", error));
   }, [id]);

@@ -34,7 +34,7 @@ const SearchDonor = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/all-user", { withCredentials: true });
+      const res = await axios.get("https://blood-donation-xi-two.vercel.app/all-user", { withCredentials: true });
       const filteredDonors = res.data.filter(
         (user) => user.role === "donor" && user.bloodGroup === type && user.selecteddistrict === district && user.selectedupazila === upazila
       );

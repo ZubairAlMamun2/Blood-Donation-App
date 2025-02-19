@@ -28,7 +28,7 @@ const Login = () => {
     Login(email, password)
       .then((result) => {
         setUser(result.user);
-        axios.get(`http://localhost:5000/login/${email}`)
+        axios.get(`https://blood-donation-xi-two.vercel.app/login/${email}`)
           .then(res => res.data.status === "active" ? setActive("true") : setActive("false"));
 
         setError("");

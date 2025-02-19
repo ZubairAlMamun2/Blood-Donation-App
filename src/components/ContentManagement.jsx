@@ -14,7 +14,7 @@ const ContentManagement = () => {
   const { data: blogs = [], refetch } = useQuery({
     queryKey: ["blogs"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/all-blog");
+      const res = await axios.get("https://blood-donation-xi-two.vercel.app/all-blog");
       return res.data;
     },
   });
@@ -32,7 +32,7 @@ const ContentManagement = () => {
   const updateBlogStatus = (id, status) => {
     axios
       .put(
-        `http://localhost:5000/updateblogstatus/${id}`,
+        `https://blood-donation-xi-two.vercel.app/updateblogstatus/${id}`,
         { status },
         { withCredentials: true }
       )
@@ -55,7 +55,7 @@ const ContentManagement = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:5000/deleteblog/${id}`).then((res) => {
+        axios.delete(`https://blood-donation-xi-two.vercel.app/deleteblog/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             Swal.fire("Deleted!", "Blog has been deleted.", "success");
             refetch();
