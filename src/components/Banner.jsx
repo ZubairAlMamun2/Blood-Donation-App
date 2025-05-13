@@ -9,7 +9,7 @@ const Banner = () => {
       className="relative min-h-[60vh] md:p-4 rounded-2xl mt-4 flex items-center justify-center"
       style={{
         backgroundImage:
-          "url(https://i.ibb.co/snd8pjb/pexels-puwadon-sang-ngern-2168173-5340269.jpg)",
+          "url(https://images.pexels.com/photos/5340269/pexels-photo-5340269.jpeg?auto=compress&cs=tinysrgb&w=600)",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

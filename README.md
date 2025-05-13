@@ -2,7 +2,7 @@
 
 
 ## Overview
-The Blood Donation App is designed to create a user-friendly platform that facilitates blood donation activities. It connects donors with those in need, promoting a seamless and efficient donation process.
+The Blood Donation App is designed to create a user-friendly platform that facilitates blood donation activities. It connects donors with those in need, promoting a seamless and efficient donation process....
 
 ## Live Project
 [https://bloooddonate-1971.netlify.app/](https://bloooddonate-1971.netlify.app/)

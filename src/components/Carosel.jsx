@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 const slidesData = [
   {
-    image: "https://i.ibb.co.com/mV1tg8F1/pexels-franco30-12193105.jpg",
+    image: "https://images.pexels.com/photos/12193105/pexels-photo-12193105.jpeg?auto=compress&cs=tinysrgb&w=600",
     title: "Donate Blood, Save Lives",
     description:
       "Every drop counts! Your donation can make the difference between life and death for someone in need.",
@@ -16,7 +16,7 @@ const slidesData = [
     buttonLink: "/auth/register",
   },
   {
-    image: "https://i.ibb.co.com/DfhR52ZD/pexels-cais-4680228.jpg",
+    image: "https://images.pexels.com/photos/4680228/pexels-photo-4680228.jpeg?auto=compress&cs=tinysrgb&w=600",
     title: "Find a Donor Near You",
     description:
       "Need blood urgently? Use our platform to quickly connect with verified blood donors in your area.",
@@ -24,7 +24,7 @@ const slidesData = [
     buttonLink: "/searchdonor",
   },
   {
-    image: "https://i.ibb.co.com/bZxjhT8/pexels-rsapmech-12820058.jpg",
+    image: "https://images.pexels.com/photos/4680222/pexels-photo-4680222.jpeg?auto=compress&cs=tinysrgb&w=600",
     title: "Join the Life-Saving Community",
     description:
       "Be a part of a compassionate network that stands together to save lives through blood donation.",

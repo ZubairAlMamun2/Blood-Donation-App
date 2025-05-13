@@ -13,10 +13,10 @@ const FeaturedSection = () => {
       <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
         {/* Featured Images */}
         {[
-          "https://i.ibb.co.com/DfhR52ZD/pexels-cais-4680228.jpg",
-          "https://i.ibb.co.com/bZxjhT8/pexels-rsapmech-12820058.jpg",
-          "https://i.ibb.co.com/mV1tg8F1/pexels-franco30-12193105.jpg",
-          "https://i.ibb.co.com/8LnzWZ7h/pexels-cais-4680222.jpg",
+          "https://images.pexels.com/photos/12193105/pexels-photo-12193105.jpeg?auto=compress&cs=tinysrgb&w=600",
+          "https://images.pexels.com/photos/12820060/pexels-photo-12820060.jpeg?auto=compress&cs=tinysrgb&w=600",
+          "https://images.pexels.com/photos/12820058/pexels-photo-12820058.jpeg?auto=compress&cs=tinysrgb&w=600",
+          "https://images.pexels.com/photos/4680222/pexels-photo-4680222.jpeg?auto=compress&cs=tinysrgb&w=600",
         ].map((image, index) => (
           <div
             key={index}
